@@ -1,15 +1,44 @@
-!SLIDE
-# Services
+!SLIDE[bg=pictures/whatamidoing.jpg]
+<br/>
+### Hello
+
 
 !SLIDE
-(diagram of some EY services)
+<br/>
+### Engine Yard
+(picture of a train in the clouds from J-Bird)
+
+!SLIDE[bg=diagrams/ey_soa_overview.png]
 
 .notes Here's a picture of some of the services we have at EY and how they interact. You can see this talking to that, bla bla
 
-!SLIDE
-(diagram of Addons pieces)
+!SLIDE[bg=screenshots/terminal_colors.png]
+<br/>
+### Pro Tip: Use color
 
-.notes Let's zoom in on the Addons part and see some more detail. Notice that Addons actually has 4 APIs! 1. public HTTP API for partners 2. public mock mode Ruby API for partners 3. private API back to cloud dashboard. 4. private mock mode Ruby API with dashbaord
+!SLIDE[bg=diagrams/just_addons.png]
+
+.notes So let's zoom in on addons. In the higher level diagram I drew this:
+
+!SLIDE[bg=diagrams/crazydiagram.png]
+
+.notes But it's really more like this
+
+!SLIDE
+
+.notes But here's a simpler version we can actually walk through. Notice that Addons actually has 4 APIs! 1. public HTTP API for partners 2. public mock mode Ruby API for partners 3. private API back to cloud dashboard. 4. private mock mode Ruby API with dashbaord
+
+!SLIDE
+# So how do you tackle complexity?
+
+!SLIDE
+# Isolation!
+
+!SLIDE
+# Solve smaller problems in isolation
+
+!SLIDE
+# Combine the smaller solutions into a complex solution
 
 !SLIDE
 # Lesson 0:
