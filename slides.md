@@ -56,13 +56,15 @@
 !SLIDE[bg=pictures/pointing.jpg]
 ### APIs
 
+.notes The keyword in API is interface. When I talk about APIs I'm talking about interfaces across systems. But was is a system. When you write a single rails app you don't think about your APIs as much but you do have objects interacting. When your system spans codebases and run on separate machines, you have to formalize your APIS more. But they are there even in a single rails app.
+
 !SLIDE[bg=diagrams/just_addons.png]
 
 .notes back to the diagram of the 3 systems
 
 !SLIDE[bg=diagrams/just_addons_really.png]
 
-.notes But here's a simpler version we can actually walk through. Notice that Addons actually has 4 APIs! 1. public HTTP API for partners 2. public mock mode Ruby API for partners 3. private API back to cloud dashboard. 4. private mock mode Ruby API with dashbaord
+.notes Here's what it looks like with the cross-app APIs defined. Notice that Addons actually has 2 distinct APIs for public and private, and then each API has two parties. For convenience we call one the server and one the client, but they do more than that.
 
 !SLIDE[bg=diagrams/addons_workflow.png]
 
@@ -93,22 +95,45 @@
 .notes so we use a mock
 
 !SLIDE
-# Lesson 0:
-## Every API client needs a mock mode.
+<br/><br/><br/>
+<br/><br/><br/>
+# Every API Client needs a mocked mode.
 
 .notes there are lots of way to actually implement a mocked mode. One of the coolest examples is fog. Shai is going to go into deeper details in his talk later about the different ways you can setup a mocked mode. I just want to introduce the concept.
 
-!SLIDE
-#Fog
-(picture of Wes)
+!SLIDE[bg=pictures/wes.jpg]
+### Wes
 
-!SLIDE
-#Fog mock mode
-(Mock Mode Code Example from fog)
+!SLIDE smaller_p
+![](pictures/fog.png)
 
-.notes here's an example of using fog to call AWS web services in test. We ask amazon to boot an instance, and it happens immediately, and fog responds as if it worked, there's even a delay feature
+    @@@ ruby
+    
+    require 'fog'
+    creds = {:provider => 'AWS',
+      :aws_access_key_id => 'a123',
+      :aws_secret_access_key => 'b456'}
+    fog = Fog::Compute.new(creds)
+    fog.servers
+    Fog.mock!
+    fog = Fog::Compute.new(creds)
+    fog.servers
+    fog.servers.create
+    fog.servers
+    fog.servers.first.destroy
+    fog.servers
+    fog.servers
 
-!SLIDE bullets incremental
+.notes Demo. here's an example of using fog to call AWS web services in test. We ask amazon to boot an instance, and it happens immediately, and fog responds as if it worked, there's even a delay feature.
+
+!SLIDE bullets incremental align-left
+# Approach so far
+* Distributed Objects
+* APIs
+* Isolation
+* Mock-Mode
+
+!SLIDE bullets incremental align-left
 # Let's write some code
 
 * Cloud Dashboard (awsm)
@@ -120,70 +145,64 @@
 .notes This was a reasonable mistake to make. At Engine Yard we always like to ship things to production as early as possible. We hide them behind a feature flag and so it doesn't matter if they are live.  So reasonably I thought to immediately make all of these things.
 
 !SLIDE
-#I wrote a rails app for Add-ons
-
-!SLIDE
-#I wrote an API client for the public API
-
-!SLIDE
-#I wrote a sinatra app for the fake service that used the API
-
-!SLIDE
-#I wrote an API client for the private API
-
-!SLIDE
-#I used the private API client in Cloud Dashboard
-
-!SLIDE
-(happy face)
+(green tests, happy face)
 
 .notes so I thought this was great right. I just wrote all this code, but only like 1/5 of it had to be in AWSM (the slow monolith), so for the most part I was writing greenfield code, and my TDD went fast.
-
-!SLIDE
-# Lesson 0.5:
-## Bundler path
-
-.notes and here's a little lesson for you... you can even run all this stuff locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
 !SLIDE
 (500 page, sad face)
 
 .notes so I got all this into production
 
-!SLIDE
-# Mistake 1
-## Working in 5 repositories at once.
+!SLIDE bullets incremental align-left
+# What went wrong
 
+* Working in 5 repositories at once sucks.
 * No integration tests.
-* No visibility into the live running system.
+* No visibility of interactions in live system.
 
 !SLIDE
-# Lesson 1:
-## Spike it!
-(picture of Tim)
+# Side Note: Bundler Path
+
+    @@@ ruby
+    
+    gem 'ey_services_api'
+    
+    gem 'ey_services_api', 
+      :git => "git@github.com:engineyard/ey_services_api.git"
+    
+    gem 'ey_services_api', 
+      :path => "../ey_services_api"
+
+.notes and here's a little lesson for you... you can even run all this stuff locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+
+!SLIDE[bg=pictures/tim.jpg]
+### Tim
 
 .notes the term spike generally refers to throwaway code that you write to try out an idea with the goal of figuring out all the questions you didn't know to ask. What will you stumble on. What assumptions can you discover that are wrong before you go too far down a given path.  Usually you don't write tests, or you write very minimal tests.
 
+!SLIDE[bg=pictures/tim.jpg]
+<br/>
+### That's crazyness.
+### Write a Spike.
+
 !SLIDE
-# My Spike
+# Spike
 
 * Step by step capybara interactions
 * You can actually run it.
 
 !SLIDE
-# Demo
+# Spike Demo
 
 .notes show the directory structure
 .notes show the running "spike"
 
 !SLIDE
-# Lesson 1.5
-## Use artifice
+### Side Note: Use artifice
 
 !SLIDE
-# Lesson 1.6
-## Don't use artifice
-## Use rack-client
+### Side Note: Use <s><div></div>artifice</s> rack-client
 
 !SLIDE
 #More use cases

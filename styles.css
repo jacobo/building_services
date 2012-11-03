@@ -31,6 +31,14 @@ h3{
   background: rgba(0, 0, 0, 0.6);
   padding: 25px;
 }
+.smaller_p p {
+  padding: 0;
+  margin: 0;
+}
+.smaller_p pre {
+  margin-top: 0;
+  padding-top: 0;
+}
 
 #footer {
   display: none;
@@ -143,6 +151,10 @@ span.caption {
   margin: 30px;
 }
 
+body .slide .align-left ul li{
+  text-align: left;
+}
+
 body .slide .align-left {
   text-align: left;
   padding-left: 75px;
@@ -172,4 +184,19 @@ table td {
 pre.bigcode {
   margin-top: 50px;
   font-size: 400%;
+}
+pre.sh_ruby {
+  padding-left: 50px;
+  line-height: 130%;
+}
+s {
+  text-decoration: none;
+  position: relative;
+}
+s div {
+  position: absolute;
+  background: #f00;
+  width: 100%;
+  height: 6px;
+  bottom: 60px;
 }
