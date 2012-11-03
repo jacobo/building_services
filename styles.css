@@ -42,10 +42,16 @@ h3{
 }
 
 .content {
-  margin: 0 5em;
+/*  margin: 0 5em;*/
   font-weight: 300;
   margin-top: 10px !important;
   margin-left: 10px !important;
+}
+
+.rightside-bullets ul li{
+  text-align: right;
+  color: #000;
+  text-shadow: none;
 }
 
 pre.sh_sourceCode {

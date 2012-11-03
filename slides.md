@@ -1,30 +1,61 @@
-!SLIDE[bg=pictures/whatamidoing.jpg]
-<br/>
-### Hello
+!SLIDE[bg=pictures/surfpier.jpg]
+### Jacob Burkhart
+<br/><br/><br/><br/>
+<br/><br/><br/><br/>
+<br/><br/><br/><br/><br/>
+## github.com/jacobo/building_services
+## @beanstalksurf
 
+.notes Hi there. This is me. I'm Jacob Burkhart. You can tweet at me there or download this presentation.  
+
+!SLIDE[bg=pictures/whatamidoing.jpg]
+### What do I know?
+
+.notes This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
 !SLIDE
 <br/>
 ### Engine Yard
 (picture of a train in the clouds from J-Bird)
 
+.notes Engine Yard. This is where I work. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
+
 !SLIDE[bg=diagrams/ey_soa_overview.png]
 
-.notes Here's a picture of some of the services we have at EY and how they interact. You can see this talking to that, bla bla
+.notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
 
 !SLIDE[bg=screenshots/terminal_colors.png]
 <br/>
-### Pro Tip: Use color
+### Pro Tip: Use colors
 
-!SLIDE[bg=diagrams/just_addons.png]
+.notes And it can actually help to think of things in terms of colors. This is a typical screenshot of my terminal, the colors help me to remember what I was doing (and on which app).
 
-.notes So let's zoom in on addons. In the higher level diagram I drew this:
+!SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
+* Minimize additions to Cloud Dashboard
+* Iterate quickly
+* Decouple
 
-!SLIDE[bg=diagrams/crazydiagram.png]
+.notes Back to addons. In the higher level diagram I drew this. So why? Why not just connect our 3rd party services directly to Cloud Dashboard. There are some design goals here.
 
-.notes But it's really more like this
+!SLIDE[bg=pictures/distributed_objects.jpg]
+### Distributed Objects
+
+.notes Let me tell you about distributed objects. This is about relationships that go across systems.
 
 !SLIDE
+(simple version)
+
+.notes this is a simple example of the data model in our case.
+
+!SLIDE[bg=diagrams/datamodel.png]
+
+.notes this is the diagram I actually created and maintained during development
+
+(full version)
+
+!SLIDE[bg=diagrams/just_addons_really.png]
+
+!SLIDE[bg=diagrams/addons_workflow.png]
 
 .notes But here's a simpler version we can actually walk through. Notice that Addons actually has 4 APIs! 1. public HTTP API for partners 2. public mock mode Ruby API for partners 3. private API back to cloud dashboard. 4. private mock mode Ruby API with dashbaord
 
@@ -44,7 +75,7 @@
 # Lesson 0:
 ## Every API client needs a mock mode.
 
-.notes there are lots of way to actually implement a mocked mode. One of the coolest examples is fog.
+.notes there are lots of way to actually implement a mocked mode. One of the coolest examples is fog. Shai is going to go into deeper details in his talk later about the different ways you can setup a mocked mode. I just want to introduce the concept.
 
 !SLIDE
 #Fog
