@@ -18,7 +18,7 @@
 ### Engine Yard
 (picture of a train in the clouds from J-Bird)
 
-.notes Engine Yard. This is where I work. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
+.notes Engine Yard. This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
 
 !SLIDE[bg=diagrams/ey_soa_overview.png]
 
@@ -26,7 +26,7 @@
 
 !SLIDE[bg=screenshots/terminal_colors.png]
 <br/>
-### Pro Tip: Use colors
+### Side Note: Use colors
 
 .notes And it can actually help to think of things in terms of colors. This is a typical screenshot of my terminal, the colors help me to remember what I was doing (and on which app).
 
@@ -42,8 +42,10 @@
 
 .notes Let me tell you about distributed objects. This is about relationships that go across systems.
 
-!SLIDE
-(simple version)
+!SLIDE[bg=pictures/solowave.jpg] align-left shadowed
+# Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
+
+!SLIDE[bg=diagrams/datamodel_simple.png]
 
 .notes this is a simple example of the data model in our case.
 
@@ -51,25 +53,44 @@
 
 .notes this is the diagram I actually created and maintained during development
 
-(full version)
+!SLIDE[bg=pictures/pointing.jpg]
+### APIs
+
+!SLIDE[bg=diagrams/just_addons.png]
+
+.notes back to the diagram of the 3 systems
 
 !SLIDE[bg=diagrams/just_addons_really.png]
 
-!SLIDE[bg=diagrams/addons_workflow.png]
-
 .notes But here's a simpler version we can actually walk through. Notice that Addons actually has 4 APIs! 1. public HTTP API for partners 2. public mock mode Ruby API for partners 3. private API back to cloud dashboard. 4. private mock mode Ruby API with dashbaord
 
-!SLIDE
-# So how do you tackle complexity?
+!SLIDE[bg=diagrams/addons_workflow.png]
 
-!SLIDE
+.notes here's a workflow of a user using the cloud dashboard to enable a service for their app. This one UI action triggers a chain of calls and responses that create new data in each system.
+
+!SLIDE[bg=diagrams/addons_workflow.png]
+<br/><br/><br/><br/><br/><br/>
+### Where To Start?
+
+!SLIDE[bg=pictures/complexity.jpg]
+### How do you solve complexity?
+
+!SLIDE bullets incremental
 # Isolation!
+![thing](pictures/isolation.png)
 
-!SLIDE
-# Solve smaller problems in isolation
+* Solve simple problems in isolation
+* Combine the simple solutions into a complex solution
 
-!SLIDE
-# Combine the smaller solutions into a complex solution
+!SLIDE[bg=diagrams/addons_workflow.png] black align-left
+## from this
+
+.notes we we'll go from this
+
+!SLIDE[bg=diagrams/addons_workflow_mock.png] black align-left
+## to this
+
+.notes so we use a mock
 
 !SLIDE
 # Lesson 0:
@@ -87,33 +108,14 @@
 
 .notes here's an example of using fog to call AWS web services in test. We ask amazon to boot an instance, and it happens immediately, and fog responds as if it worked, there's even a delay feature
 
-!SLIDE
-(diagram of Addons pieces)
-
-.notes but back to the diagram. If we know this is what we want to build, then let's start here.
-
-!SLIDE
-# A quick demo
-(series of screen shots)
-
-.notes here's a quick demo of how the addons program works, so you can get an idea of what I was trying to build
-
-!SLIDE
-# Starting point requirements
-* Write as little code in Cloud Dashboard as possible
-* Use case: partners register their services with Addons service
-* Use case: Addons service makes them available to users on Cloud Dashboard
-
-.notes so we have this starting point of simple use case
-
-!SLIDE
+!SLIDE bullets incremental
 # Let's write some code
 
 * Cloud Dashboard (awsm)
 * Add-ons Service (tresfiestas)
 * Fake Service (lisonja)
-* Public API client (ey_services_api)
-* Private API client (ey_services_api_internal)
+* Public API client (ey\_services\_api)
+* Private API client (ey\_services\_api\_internal)
 
 .notes This was a reasonable mistake to make. At Engine Yard we always like to ship things to production as early as possible. We hide them behind a feature flag and so it doesn't matter if they are live.  So reasonably I thought to immediately make all of these things.
 
