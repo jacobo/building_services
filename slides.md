@@ -101,8 +101,10 @@
 
 .notes there are lots of way to actually implement a mocked mode. One of the coolest examples is fog. Shai is going to go into deeper details in his talk later about the different ways you can setup a mocked mode. I just want to introduce the concept.
 
-!SLIDE[bg=pictures/wes.jpg]
+!SLIDE[bg=pictures/wes.jpg] h2bottomright
 ### Wes
+## @geemus
+
 
 !SLIDE smaller_p
 ![](pictures/fog.png)
@@ -110,11 +112,12 @@
     @@@ ruby
     
     require 'fog'
-    creds = {:provider => 'AWS',
-      :aws_access_key_id => 'a123',
-      :aws_secret_access_key => 'b456'}
+    creds = {provider: 'AWS',
+      aws_access_key_id: 'a123',
+      aws_secret_access_key: 'b456'}
     fog = Fog::Compute.new(creds)
     fog.servers
+
     Fog.mock!
     fog = Fog::Compute.new(creds)
     fog.servers
@@ -176,8 +179,9 @@
 
 .notes and here's a little lesson for you... you can even run all this stuff locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
-!SLIDE[bg=pictures/tim.jpg]
+!SLIDE[bg=pictures/tim.jpg] h2bottomright
 ### Tim
+## @halorgium
 
 .notes the term spike generally refers to throwaway code that you write to try out an idea with the goal of figuring out all the questions you didn't know to ask. What will you stumble on. What assumptions can you discover that are wrong before you go too far down a given path.  Usually you don't write tests, or you write very minimal tests.
 
@@ -186,41 +190,173 @@
 ### That's crazyness.
 ### Write a Spike.
 
+!SLIDE[bg=pictures/urchin.jpg] align-left bullets incremental
+### Spike
+* Throwaway Code
+* No Tests
+* Full Integration
+
+.notes usually, a spike is throwaway code.
+
+!SLIDE[bg=pictures/cactus.jpg]
+### Spike a Working Demo
+
+!SLIDE video
+<video controls="controls">
+  <source src="/image/recordings/test.mov" type="video/mp4">
+</video>
+
+.notes clicking around
+
+!SLIDE bullets incremental
+### Side Note: Use pow <small>http://pow.cx/</small>
+
+* `myapp.dev` + `otherapp.dev` <br/> vs. <br/> `localhost:3000` + `localhost:4000`
+* ![](pictures/logo-pow.png)
+
+!SLIDE bullets incremental
+### Side Note: Use <s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
+* anything.localdev.engineyard.com:3000 == <br/> localhost:3000
+* ![](screenshots/dns.png)
+
+!SLIDE bullets incremental
+### Side Note: Use <s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
+
+    @@@ ruby
+    # config.ru
+    CASH_HOST = "http://billing.localdev.engineyard.com:3000/"
+    AWSM_HOST = "http://awsmmcmonies.localdev.engineyard.com:3000/"
+    if Rails.env == "development"
+      map AWSM_HOST do
+        run AwsmMcMonies::Server
+      end
+      map CASH_HOST do
+        run JohnnyCash::Application
+      end
+    else
+      run JohnnyCash::Application
+    end
+
+!SLIDE[bg=pictures/sidewayspalm.jpg]
+### The Spike becomes an integration test
+
 !SLIDE
-# Spike
+# The Spike becomes an integration test
 
-* Step by step capybara interactions
-* You can actually run it.
+    @@@ ruby
+    #spec_helper.rb
+    Capybara.app = Rack::Builder.new do
+      use RequestVisualizer
+      map "#{URL_FOR_TRESFIESTAS}/" do
+        run Tresfiestas::Application
+      end
+      map "#{URL_FOR_AWSM}/" do
+        run FakeAWSM::Application
+      end
+      map "#{URL_FOR_LISONJA}/" do
+        run Lisonja::Application
+      end
+    end
+    Artifice.activate_with(Capybara.app)
 
 !SLIDE
-# Spike Demo
+# The Spike becomes an integration test
 
-.notes show the directory structure
-.notes show the running "spike"
+    @@@ ruby
+    #enable_spec.rb
+    visit URL_FOR_AWSM
+    click_link "signup!"
+    fill_in "Name", with: "acme-corp-trial"
+
+    FakeAWSM::Account.where(
+      name: "acme-corp-trial").should_not be_empty
+
+    click_button "Create Account"
+    click_link "Services"
+    click_button "Enable Lisonja"
+
+!SLIDE
+# `use RequestVisualizer`
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/request_visualizer.png"/>
+</div>
+
+.notes So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
+
 
 !SLIDE
 ### Side Note: Use artifice
 
+    @@@ ruby
+    require 'net/http'
+    Net::HTTP.get_print(URI.parse("http://google.com"))
+
+    require 'artifice'
+    miniapp = lambda{|_| [200, {}, ["Hello"]]}
+    Artifice.activate_with(miniapp)
+    Net::HTTP.get_print(URI.parse("http://google.com"))
+    Artifice.deactivate
+
 !SLIDE
 ### Side Note: Use <s><div></div>artifice</s> rack-client
 
-!SLIDE
-#More use cases
+    @@@ ruby
+    require 'rack/client'
+    client = Rack::Client.new
+    client.get("http://google.com", {}).body
 
-.notes So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level.
-
-!SLIDE
-# Lesson: Visualize it
-
-.notes so I wrote this little middleware that let me see a trace of the API traffic
-
-!SLIDE
-# Demo
-
-.notes show running a live test with the visualizer on
+    miniapp = lambda{|_| [200, {}, ["Hello"]]}
+    client = Rack::Client.new{ run miniapp }
+    client.get("http://google.com", {}).body
 
 !SLIDE
-# Back to working in 5 repositories
+### Side Note: Use <s><div></div>artifice</s> rack-client
+
+    @@@ ruby
+    #spec_helper.rb
+    Capybara.app = Rack::Builder.app do
+      map CASH_HOST do
+        run JohnnyCash::Application
+      end
+      map AWSM_HOST do
+        run AwsmMcMonies::Server
+      end
+      map "https://apisandbox.zuora.com/" do
+        run Rack::Client::Handler::NetHTTP
+      end
+    end
+    JohnnyCashApi::Client.mock!(Capybara.app)
+
+!SLIDE[bg=pictures/boards.jpg]
+### Many Integration tests are written
+
+!SLIDE[bg=pictures/drivingit.jpg]
+### Integration tests: <br/> Drive "real" code
+
+!SLIDE
+### Testable Mocks
+
+    @@@ ruby
+    # ey_services_api/spec/spec_helpers.rb
+    if ENV["BUNDLE_GEMFILE"] == "EYIntegratedGemfile"
+      require 'tresfiestas'
+      EY::ServicesAPI.enable_mock!(
+        Tresfiestas::Application)
+    else
+      require 'ey_services_fake'
+      EY::ServicesAPI.enable_mock!(
+        EyServicesFake::TresfiestasFake)
+    end
+    
+
+!SLIDE[bg=pictures/roots.jpg]
+### In reality the process was not so linear
+
+!SLIDE
+# Time to ship!
+
+![](pictures/shipit.png)
 
 !SLIDE
 # Lesson: Verify your mock mode
