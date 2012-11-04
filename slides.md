@@ -1,4 +1,4 @@
-!SLIDE[bg=pictures/surfpier.jpg]
+!SLIDE[bg=pictures/surfpier.jpg] black
 ### Jacob Burkhart
 <br/><br/><br/><br/>
 <br/><br/><br/><br/>
@@ -20,7 +20,8 @@
 
 .notes Engine Yard. This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
 
-!SLIDE[bg=diagrams/ey_soa_overview.png]
+!SLIDE[bg=diagrams/ey_soa_overview.png] h3overlaybullet bullets incremental
+* <h3>Service-Oriented Architecture</h3>
 
 .notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
 
@@ -66,13 +67,10 @@
 
 .notes Here's what it looks like with the cross-app APIs defined. Notice that Addons actually has 2 distinct APIs for public and private, and then each API has two parties. For convenience we call one the server and one the client, but they do more than that.
 
-!SLIDE[bg=diagrams/addons_workflow.png]
+!SLIDE[bg=diagrams/addons_workflow.png] h3overlaybullet bullets incremental
+* <h3>Where To Start?</h3>
 
 .notes here's a workflow of a user using the cloud dashboard to enable a service for their app. This one UI action triggers a chain of calls and responses that create new data in each system.
-
-!SLIDE[bg=diagrams/addons_workflow.png]
-<br/><br/><br/><br/><br/><br/>
-### Where To Start?
 
 !SLIDE[bg=pictures/complexity.jpg]
 ### How do you solve complexity?
@@ -106,18 +104,19 @@
 ## @geemus
 
 
-!SLIDE smaller_p
+!SLIDE marginlessimage
 ![](pictures/fog.png)
 
     @@@ ruby
-    
     require 'fog'
     creds = {provider: 'AWS',
       aws_access_key_id: 'a123',
       aws_secret_access_key: 'b456'}
     fog = Fog::Compute.new(creds)
     fog.servers
+&nbsp;
 
+    @@@ ruby
     Fog.mock!
     fog = Fog::Compute.new(creds)
     fog.servers
@@ -168,16 +167,22 @@
 # Side Note: Bundler Path
 
     @@@ ruby
-    
     gem 'ey_services_api'
-    
+&nbsp;
+
+    @@@ ruby
     gem 'ey_services_api', 
-      :git => "git@github.com:engineyard/ey_services_api.git"
-    
-    gem 'ey_services_api', 
-      :path => "../ey_services_api"
+      git: 'git@github.com:engineyard/ey_services_api.git'
+&nbsp;
+
+    @@@ ruby
+    # stuff
+    gem 'ey_services_api', path: '../ey_services_api'
 
 .notes and here's a little lesson for you... you can even run all this stuff locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+
+!SLIDE[bg=pictures/beachponder.jpg]
+### Full integration tests are hard
 
 !SLIDE[bg=pictures/tim.jpg] h2bottomright
 ### Tim
@@ -247,13 +252,13 @@
     #spec_helper.rb
     Capybara.app = Rack::Builder.new do
       use RequestVisualizer
-      map "#{URL_FOR_TRESFIESTAS}/" do
+      map URL_FOR_TRESFIESTAS do
         run Tresfiestas::Application
       end
-      map "#{URL_FOR_AWSM}/" do
+      map URL_FOR_AWSM do
         run FakeAWSM::Application
       end
-      map "#{URL_FOR_LISONJA}/" do
+      map URL_FOR_LISONJA do
         run Lisonja::Application
       end
     end
@@ -285,18 +290,22 @@
 .notes So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
 
 
-!SLIDE
+!SLIDE bullets incremental
 ### Side Note: Use artifice
 
     @@@ ruby
     require 'net/http'
-    Net::HTTP.get_print(URI.parse("http://google.com"))
+    Net::HTTP.get_print(URI.parse('http://google.com'))
+&nbsp;
 
+    @@@ ruby
     require 'artifice'
-    miniapp = lambda{|_| [200, {}, ["Hello"]]}
+    miniapp = lambda{|_| [200, {}, ['Hello']]}
     Artifice.activate_with(miniapp)
-    Net::HTTP.get_print(URI.parse("http://google.com"))
+    Net::HTTP.get_print(URI.parse('http://google.com'))
     Artifice.deactivate
+
+* <br/>`Artifice.activate_with(Capybara.app)`
 
 !SLIDE
 ### Side Note: Use <s><div></div>artifice</s> rack-client
@@ -304,11 +313,13 @@
     @@@ ruby
     require 'rack/client'
     client = Rack::Client.new
-    client.get("http://google.com", {}).body
+    client.get('http://google.com', {}).body
+&nbsp;
 
-    miniapp = lambda{|_| [200, {}, ["Hello"]]}
+    @@@ ruby
+    miniapp = lambda{|_| [200, {}, ['Hello']]}
     client = Rack::Client.new{ run miniapp }
-    client.get("http://google.com", {}).body
+    client.get('http://google.com', {}).body
 
 !SLIDE
 ### Side Note: Use <s><div></div>artifice</s> rack-client
@@ -332,7 +343,7 @@
 ### Many Integration tests are written
 
 !SLIDE[bg=pictures/drivingit.jpg]
-### Integration tests: <br/> Drive "real" code
+### Integration tests <br/> drive "real" code
 
 !SLIDE
 ### Testable Mocks
@@ -348,40 +359,44 @@
       EY::ServicesAPI.enable_mock!(
         EyServicesFake::TresfiestasFake)
     end
-    
+
+.notes there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.
 
 !SLIDE[bg=pictures/roots.jpg]
 ### In reality the process was not so linear
+
+!SLIDE bullets incremental
+### To Review
+* Distributed Objects
+* Well defined APIs
+* Integration Tests
+* Verified Mock-Mode
 
 !SLIDE
 # Time to ship!
 
 ![](pictures/shipit.png)
 
-!SLIDE
-# Lesson: Verify your mock mode
-
-.notes there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.
-
-!SLIDE
-# Lesson: Ship it!
-
 .notes this is what I tried to do originally, but I needed to heed the other lessons first. With verifiable API clients and mock modes I could work in a single repository at a time, and be confident that if my tests pass, things will work when I deploy to production.
 
 !SLIDE
-# Shipping is just the start!
+### Side Note: Use Feature Flags
+
+    @@@ ruby
+    class Account < ActiveRecord::Base
+      has_many :account_features
+      has_many :features, :through => :account_features
+    end
+&nbsp;
+
+    @@@ ruby
+    - if @account.has_feature?('addons')
+      = link_to "Addons", account_addons_url(@account)
 
 !SLIDE
-# Iterate
-
-!SLIDE
-# Write Documentation
-## And keep it up to date
+# Document your APIs
 
 .notes documentation has a price (just like code) the more you write, the more you need to maintain
-
-!SLIDE
-# Generate Documentation
 
 !SLIDE
 # Share your errors
@@ -389,7 +404,7 @@
 .notes we actually show partners a debug console with exception traces for recent errors.
 
 !SLIDE
-# Don't use rails for API controllers, use sinatra
+# Don't use rails for API controllers, use Sinatra
 
 .notes because it's not as portable. Because you can re-use mini sinatra apps as your fake too.
 .notes because nested resource routes are a pain and you end up not even providing every REST verb on every one of them.
