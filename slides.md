@@ -13,7 +13,7 @@
 
 * This is just a story
 
-.notes This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
+.notes FOCUS: theme is distributed architecture. FOCUS: this talk is about it a story. This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
 !SLIDE[bg=pictures/engineyardcloud.png]
 ## Engine Yard
@@ -29,7 +29,7 @@
 <br/>
 ### Side Note: Use colors
 
-.notes And it can actually help to think of things in terms of colors. This is a typical screenshot of my terminal, the colors help me to remember what I was doing (and on which app).
+.notes FOCUS: drop this maybe?. And it can actually help to think of things in terms of colors. This is a typical screenshot of my terminal, the colors help me to remember what I was doing (and on which app).
 
 !SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
 * Minimize additions to Cloud Dashboard
@@ -41,7 +41,7 @@
 !SLIDE[bg=pictures/distributed_objects.jpg]
 ### Distributed Objects
 
-.notes Let me tell you about distributed objects. This is about relationships that go across systems.
+.notes SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.
 
 !SLIDE[bg=pictures/solowave.jpg] align-left shadowed
 # Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
@@ -65,7 +65,7 @@
 
 !SLIDE[bg=diagrams/just_addons_really.png]
 
-.notes Here's what it looks like with the cross-app APIs defined. Notice that Addons actually has 2 distinct APIs for public and private, and then each API has two parties. For convenience we call one the server and one the client, but they do more than that.
+.notes FOCUS: communication goes across the systems. (more important than what it actually is) Here's what it looks like with the cross-app APIs defined. Notice that Addons actually has 2 distinct APIs for public and private, and then each API has two parties. For convenience we call one the server and one the client, but they do more than that.
 
 !SLIDE[bg=diagrams/addons_workflow.png] h3overlaybullet bullets incremental
 * <h3>Where To Start?</h3>
@@ -153,8 +153,10 @@
 # Approach so far
 * Distributed Objects
 * APIs
-* Isolation
+* Iteration and Isolation
 * Mock-Mode
+
+.notes FOCUS: spend more time here.
 
 !SLIDE bullets incremental align-left
 # Let's write some code
@@ -206,6 +208,8 @@
 * No integration tests.
 * No visibility of interactions in live system.
 
+.notes Because this is distributed system. Nothing was fundamentally wrong with what we were doing, but something was missing.  No visibility is the orange arrows.
+
 !SLIDE[bg=pictures/beachponder.jpg]
 ### Full integration tests are hard
 
@@ -237,6 +241,11 @@
 </video>
 
 .notes clicking around
+
+!SLIDE
+# Rack-Builder and map
+
+.notes links to Shai's talk
 
 !SLIDE bullets incremental
 ### Side Note: Use pow <small>http://pow.cx/</small>
@@ -312,7 +321,7 @@
   <img src="/image/screenshots/request_visualizer.png"/>
 </div>
 
-.notes So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
+.notes FOCUS: link to the arrows. So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
 
 
 !SLIDE bullets incremental
@@ -385,7 +394,7 @@
         EyServicesFake::TresfiestasFake)
     end
 
-.notes there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.
+.notes SHAI tie in. there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.
 
 !SLIDE[bg=pictures/roots.jpg]
 ### In reality the process was not so linear
@@ -472,12 +481,6 @@
 # One piece of data should have 1 authority
 
 .notes delegate to that authority when you need that information
-
-!SLIDE
-# Follow conventions. Break conventions. Establish conventions.
-
-.notes a of conventions I followed turned out to be mistakes: to_json, isolation testing. But I needed to build new conventions in their place: presenter, mock mode orchestrator.
-.notes we use HMAC for auth on all our services, all of the TF data is represented with model name to model attributes, with URLS outside the inner hash. Everything is JSON post body and JSON response.
 
 !SLIDE[bg=pictures/boardsonthebeach.jpg]
 ### Questions?
