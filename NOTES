@@ -1,0 +1,6 @@
+generate static with:
+bundle exec showoff static
+
+but then fix the links to images by doing
+  find: image/./
+  replace: ../
