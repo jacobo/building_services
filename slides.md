@@ -8,8 +8,10 @@
 
 .notes Hi there. This is me. I'm Jacob Burkhart. You can tweet at me there or download this presentation.  
 
-!SLIDE[bg=pictures/whatamidoing.jpg]
+!SLIDE[bg=pictures/whatamidoing.jpg] bullets incremental
 ### What do I know?
+
+* This is just a story
 
 .notes This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
@@ -73,24 +75,45 @@
 .notes here's a workflow of a user using the cloud dashboard to enable a service for their app. This one UI action triggers a chain of calls and responses that create new data in each system.
 
 !SLIDE[bg=pictures/complexity.jpg]
-### How do you solve complexity?
+### Complexity
 
 !SLIDE bullets incremental
-# Isolation!
+# Iteration
+![thing](pictures/iteration.png)
+
+* Solve a small subset of one use case.
+* Gradually add features/complexity.
+
+.notes start with just "enable service" and assume that we already know about the services etc.. 
+
+!SLIDE bullets incremental
+# Isolation
 ![thing](pictures/isolation.png)
 
 * Solve simple problems in isolation
 * Combine the simple solutions into a complex solution
 
+.notes develop on just one of the 3 parts at time, and use a mock so we can write tests.
+
 !SLIDE[bg=diagrams/addons_workflow.png] black align-left
 ## from this
 
-.notes we we'll go from this
+.notes we we'll go from the production use case where everything talks
 
 !SLIDE[bg=diagrams/addons_workflow_mock.png] black align-left
 ## to this
 
-.notes so we use a mock
+.notes to using a mock
+
+!SLIDE[bg=diagrams/addons_workflow_mock2.png] black align-left
+## and this
+
+.notes to using a mock
+
+!SLIDE[bg=diagrams/addons_workflow_mock3.png] black align-left
+## and also
+
+.notes to using a mock
 
 !SLIDE
 <br/><br/><br/>
@@ -138,21 +161,43 @@
 !SLIDE bullets incremental align-left
 # Let's write some code
 
-* Cloud Dashboard (awsm)
-* Add-ons Service (tresfiestas)
-* Fake Service (lisonja)
-* Public API client (ey\_services\_api)
 * Private API client (ey\_services\_api\_internal)
+* Cloud Dashboard (awsm)
+* Public API client (ey\_services\_api)
+* Fake Service (lisonja)
+* Add-ons Service (tresfiestas)
 
 .notes This was a reasonable mistake to make. At Engine Yard we always like to ship things to production as early as possible. We hide them behind a feature flag and so it doesn't matter if they are live.  So reasonably I thought to immediately make all of these things.
 
 !SLIDE
-(green tests, happy face)
+# Side Note: Bundler Path
+
+    @@@ ruby
+    #fetches from rubygems
+    gem 'ey_services_api'
+&nbsp;
+
+    @@@ ruby
+    #fetches from github
+    gem 'ey_services_api', 
+      git: 'git@github.com:engineyard/ey_services_api.git'
+&nbsp;
+
+    @@@ ruby
+    #fetches from local repo
+    gem 'ey_services_api', path: '../ey_services_api'
+
+.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+
+!SLIDE
+# Tests Pass
+![](screenshots/green_tests.png)
 
 .notes so I thought this was great right. I just wrote all this code, but only like 1/5 of it had to be in AWSM (the slow monolith), so for the most part I was writing greenfield code, and my TDD went fast.
 
 !SLIDE
-(500 page, sad face)
+# Deploy and...
+![](screenshots/500.png)
 
 .notes so I got all this into production
 
@@ -162,24 +207,6 @@
 * Working in 5 repositories at once sucks.
 * No integration tests.
 * No visibility of interactions in live system.
-
-!SLIDE
-# Side Note: Bundler Path
-
-    @@@ ruby
-    gem 'ey_services_api'
-&nbsp;
-
-    @@@ ruby
-    gem 'ey_services_api', 
-      git: 'git@github.com:engineyard/ey_services_api.git'
-&nbsp;
-
-    @@@ ruby
-    # stuff
-    gem 'ey_services_api', path: '../ey_services_api'
-
-.notes and here's a little lesson for you... you can even run all this stuff locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
 !SLIDE[bg=pictures/beachponder.jpg]
 ### Full integration tests are hard
@@ -386,6 +413,10 @@
     class Account < ActiveRecord::Base
       has_many :account_features
       has_many :features, :through => :account_features
+
+      def has_feature?(name)
+        features.where(name: name).any?
+      end
     end
 &nbsp;
 
@@ -402,17 +433,6 @@
 # Share your errors
 
 .notes we actually show partners a debug console with exception traces for recent errors.
-
-!SLIDE
-# Don't use rails for API controllers, use Sinatra
-
-.notes because it's not as portable. Because you can re-use mini sinatra apps as your fake too.
-.notes because nested resource routes are a pain and you end up not even providing every REST verb on every one of them.
-
-!SLIDE
-# Write your own presenter
-
-.notes because it's hard to follow what as_json is doing with nested models
 
 !SLIDE
 # Your domain model should not match your database model
@@ -444,16 +464,10 @@
 .notes a of conventions I followed turned out to be mistakes: to_json, isolation testing. But I needed to build new conventions in their place: presenter, mock mode orchestrator.
 .notes we use HMAC for auth on all our services, all of the TF data is represented with model name to model attributes, with URLS outside the inner hash. Everything is JSON post body and JSON response.
 
-!SLIDE
-# Documentation is hard
-
-.notes demo of DDD
-
-
-
-
-
-
-
-
-
+!SLIDE[bg=pictures/boardsonthebeach.jpg]
+### Questions?
+<br/><br/><br/><br/>
+<br/><br/><br/><br/>
+<br/><br/><br/><br/><br/>
+## github.com/jacobo/building_services
+## @beanstalksurf

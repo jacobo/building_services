@@ -54,7 +54,7 @@ pre {
 .slide .black {
   color: #000;
 }
-.slide .black h1,h2{
+.slide .black h1, .slide .black h2{
   text-shadow: none;
 }
 .slide .black h3{
