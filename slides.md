@@ -15,12 +15,10 @@
 
 .notes This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
-!SLIDE
-<br/>
-### Engine Yard
-(picture of a train in the clouds from J-Bird)
+!SLIDE[bg=pictures/engineyardcloud.png]
+## Engine Yard
 
-.notes Engine Yard. This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
+.notes This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
 
 !SLIDE[bg=diagrams/ey_soa_overview.png] h3overlaybullet bullets incremental
 * <h3>Service-Oriented Architecture</h3>
@@ -235,7 +233,7 @@
 
 !SLIDE video
 <video controls="controls">
-  <source src="/image/recordings/test.mov" type="video/mp4">
+  <source src="/image/recordings/spikedemo.mov" type="video/mp4">
 </video>
 
 .notes clicking around
@@ -427,12 +425,29 @@
 !SLIDE
 # Document your APIs
 
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/services-docs-API.png"/>
+</div>
+
 .notes documentation has a price (just like code) the more you write, the more you need to maintain
 
 !SLIDE
 # Share your errors
 
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/newrelicerrors1.png"/>
+</div>
+
 .notes we actually show partners a debug console with exception traces for recent errors.
+
+!SLIDE
+# Share your errors
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/newrelicerrors2.png"/>
+</div>
+
+.notes A 200 status code means the server handled the request successfully, but doesn't guarantee the client can parse and understand the response.
 
 !SLIDE
 # Your domain model should not match your database model
