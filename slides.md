@@ -11,8 +11,6 @@
 !SLIDE[bg=pictures/whatamidoing.jpg] bullets incremental
 ### What do I know?
 
-* This is just a story
-
 .notes FOCUS: theme is distributed architecture. FOCUS: this talk is about it a story. This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
 !SLIDE[bg=pictures/engineyardcloud.png]
@@ -25,26 +23,37 @@
 
 .notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
 
-!SLIDE[bg=screenshots/terminal_colors.png]
-<br/>
-### Side Note: Use colors
-
-.notes FOCUS: drop this maybe?. And it can actually help to think of things in terms of colors. This is a typical screenshot of my terminal, the colors help me to remember what I was doing (and on which app).
-
 !SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
 * Minimize additions to Cloud Dashboard
-* Iterate quickly
 * Decouple
+* Distributed apps == <br/> Distributed codebase
 
 .notes Back to addons. In the higher level diagram I drew this. So why? Why not just connect our 3rd party services directly to Cloud Dashboard. There are some design goals here.
 
-!SLIDE[bg=pictures/distributed_objects.jpg]
-### Distributed Objects
+!SLIDE
+# Distributed Codebase: Bundler Path
 
-.notes SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.
+    @@@ ruby
+    #fetches from rubygems
+    gem 'ey_services_api'
+&nbsp;
+
+    @@@ ruby
+    #fetches from github
+    gem 'ey_services_api', 
+      git: 'git@github.com:engineyard/ey_services_api.git'
+&nbsp;
+
+    @@@ ruby
+    #fetches from local repo
+    gem 'ey_services_api', path: '../ey_services_api'
+
+.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
 !SLIDE[bg=pictures/solowave.jpg] align-left shadowed
 # Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
+
+.notes This is the "DRY" principle. It applies to our systems, And it applies to our data model.
 
 !SLIDE[bg=diagrams/datamodel_simple.png]
 
@@ -53,6 +62,20 @@
 !SLIDE[bg=diagrams/datamodel.png]
 
 .notes this is the diagram I actually created and maintained during development
+
+!SLIDE[bg=pictures/distributed_objects.jpg]
+### Distributed Objects
+
+.notes SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.
+
+!SLIDE
+# Documentation
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/services-docs-API.png"/>
+</div>
+
+.notes documentation has a price (just like code) the more you write, the more you need to maintain
 
 !SLIDE[bg=pictures/pointing.jpg]
 ### APIs
@@ -103,16 +126,6 @@
 
 .notes to using a mock
 
-!SLIDE[bg=diagrams/addons_workflow_mock2.png] black align-left
-## and this
-
-.notes to using a mock
-
-!SLIDE[bg=diagrams/addons_workflow_mock3.png] black align-left
-## and also
-
-.notes to using a mock
-
 !SLIDE
 <br/><br/><br/>
 <br/><br/><br/>
@@ -151,43 +164,24 @@
 
 !SLIDE bullets incremental align-left
 # Approach so far
-* Distributed Objects
-* APIs
-* Iteration and Isolation
-* Mock-Mode
+* Distributed Data Model
+* Documented Use Cases
+* Identified APIs
+* Iterate: start at minimal use case
+* Isolate using Mock-Mode
 
-.notes FOCUS: spend more time here.
+.notes FOCUS: spend more time here. Obvious stuff so far.
 
 !SLIDE bullets incremental align-left
 # Let's write some code
 
-* Private API client (ey\_services\_api\_internal)
-* Cloud Dashboard (awsm)
-* Public API client (ey\_services\_api)
-* Fake Service (lisonja)
-* Add-ons Service (tresfiestas)
+* Private API client
+* Cloud Dashboard
+* Public API client
+* Fake Service
+* Add-ons Service
 
 .notes This was a reasonable mistake to make. At Engine Yard we always like to ship things to production as early as possible. We hide them behind a feature flag and so it doesn't matter if they are live.  So reasonably I thought to immediately make all of these things.
-
-!SLIDE
-# Side Note: Bundler Path
-
-    @@@ ruby
-    #fetches from rubygems
-    gem 'ey_services_api'
-&nbsp;
-
-    @@@ ruby
-    #fetches from github
-    gem 'ey_services_api', 
-      git: 'git@github.com:engineyard/ey_services_api.git'
-&nbsp;
-
-    @@@ ruby
-    #fetches from local repo
-    gem 'ey_services_api', path: '../ey_services_api'
-
-.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
 !SLIDE
 # Tests Pass
@@ -204,9 +198,13 @@
 !SLIDE bullets incremental align-left
 # What went wrong
 
-* Working in 5 repositories at once sucks.
-* No integration tests.
-* No visibility of interactions in live system.
+* Don't know <br/> ![](screenshots/500.png)
+
+!SLIDE bullets incremental align-left
+# Real Problem
+
+* No visibility of interactions
+* No integration tests
 
 .notes Because this is distributed system. Nothing was fundamentally wrong with what we were doing, but something was missing.  No visibility is the orange arrows.
 
@@ -232,49 +230,12 @@
 
 .notes usually, a spike is throwaway code.
 
-!SLIDE[bg=pictures/cactus.jpg]
-### Spike a Working Demo
-
 !SLIDE video
 <video controls="controls">
   <source src="/image/recordings/spikedemo.mov" type="video/mp4">
 </video>
 
 .notes clicking around
-
-!SLIDE
-# Rack-Builder and map
-
-.notes links to Shai's talk
-
-!SLIDE bullets incremental
-### Side Note: Use pow <small>http://pow.cx/</small>
-
-* `myapp.dev` + `otherapp.dev` <br/> vs. <br/> `localhost:3000` + `localhost:4000`
-* ![](pictures/logo-pow.png)
-
-!SLIDE bullets incremental
-### Side Note: Use <s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
-* anything.localdev.engineyard.com:3000 == <br/> localhost:3000
-* ![](screenshots/dns.png)
-
-!SLIDE bullets incremental
-### Side Note: Use <s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
-
-    @@@ ruby
-    # config.ru
-    CASH_HOST = "http://billing.localdev.engineyard.com:3000/"
-    AWSM_HOST = "http://awsmmcmonies.localdev.engineyard.com:3000/"
-    if Rails.env == "development"
-      map AWSM_HOST do
-        run AwsmMcMonies::Server
-      end
-      map CASH_HOST do
-        run JohnnyCash::Application
-      end
-    else
-      run JohnnyCash::Application
-    end
 
 !SLIDE[bg=pictures/sidewayspalm.jpg]
 ### The Spike becomes an integration test
@@ -286,14 +247,14 @@
     #spec_helper.rb
     Capybara.app = Rack::Builder.new do
       use RequestVisualizer
-      map URL_FOR_TRESFIESTAS do
-        run Tresfiestas::Application
+      map "http://addons.ey.test/" do
+        run AddonsService::Application
       end
-      map URL_FOR_AWSM do
-        run FakeAWSM::Application
+      map "http://cloud-dashboard.test/" do
+        run CloudDashboard::Server
       end
-      map URL_FOR_LISONJA do
-        run Lisonja::Application
+      map "http://example-service.partner/" do
+        run ExampleService::Server
       end
     end
     Artifice.activate_with(Capybara.app)
@@ -303,75 +264,15 @@
 
     @@@ ruby
     #enable_spec.rb
-    visit URL_FOR_AWSM
+    visit "http://cloud-dashboard.test"
     click_link "signup!"
-    fill_in "Name", with: "acme-corp-trial"
-
-    FakeAWSM::Account.where(
-      name: "acme-corp-trial").should_not be_empty
+    fill_in "Name", with: "new-customer"
 
     click_button "Create Account"
-    click_link "Services"
-    click_button "Enable Lisonja"
+    click_link "Addons"
+    click_button "Enable Example Addon"
 
-!SLIDE
-# `use RequestVisualizer`
-
-<div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/request_visualizer.png"/>
-</div>
-
-.notes FOCUS: link to the arrows. So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
-
-
-!SLIDE bullets incremental
-### Side Note: Use artifice
-
-    @@@ ruby
-    require 'net/http'
-    Net::HTTP.get_print(URI.parse('http://google.com'))
-&nbsp;
-
-    @@@ ruby
-    require 'artifice'
-    miniapp = lambda{|_| [200, {}, ['Hello']]}
-    Artifice.activate_with(miniapp)
-    Net::HTTP.get_print(URI.parse('http://google.com'))
-    Artifice.deactivate
-
-* <br/>`Artifice.activate_with(Capybara.app)`
-
-!SLIDE
-### Side Note: Use <s><div></div>artifice</s> rack-client
-
-    @@@ ruby
-    require 'rack/client'
-    client = Rack::Client.new
-    client.get('http://google.com', {}).body
-&nbsp;
-
-    @@@ ruby
-    miniapp = lambda{|_| [200, {}, ['Hello']]}
-    client = Rack::Client.new{ run miniapp }
-    client.get('http://google.com', {}).body
-
-!SLIDE
-### Side Note: Use <s><div></div>artifice</s> rack-client
-
-    @@@ ruby
-    #spec_helper.rb
-    Capybara.app = Rack::Builder.app do
-      map CASH_HOST do
-        run JohnnyCash::Application
-      end
-      map AWSM_HOST do
-        run AwsmMcMonies::Server
-      end
-      map "https://apisandbox.zuora.com/" do
-        run Rack::Client::Handler::NetHTTP
-      end
-    end
-    JohnnyCashApi::Client.mock!(Capybara.app)
+    page.should contain("Example Addon enabled!")
 
 !SLIDE[bg=pictures/boards.jpg]
 ### Many Integration tests are written
@@ -380,31 +281,27 @@
 ### Integration tests <br/> drive "real" code
 
 !SLIDE
-### Testable Mocks
+### 2 Mock Modes
 
     @@@ ruby
     # ey_services_api/spec/spec_helpers.rb
     if ENV["BUNDLE_GEMFILE"] == "EYIntegratedGemfile"
-      require 'tresfiestas'
-      EY::ServicesAPI.enable_mock!(
-        Tresfiestas::Application)
+      #run our tests against the real thing
+      require 'addons_service'
+      EY::ServicesAPI.mock!(
+        AddonsService::Application)
     else
-      require 'ey_services_fake'
-      EY::ServicesAPI.enable_mock!(
-        EyServicesFake::TresfiestasFake)
+      #run our tests against a fake version
+      require 'ey_services_api/fake'
+      EY::ServicesAPI.mock!(
+        EyServicesAPI::FakeForAddonsService)
     end
 
 .notes SHAI tie in. there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.
 
-!SLIDE[bg=pictures/roots.jpg]
-### In reality the process was not so linear
+!SLIDE[bg=diagrams/crazymocks.png]
 
-!SLIDE bullets incremental
-### To Review
-* Distributed Objects
-* Well defined APIs
-* Integration Tests
-* Verified Mock-Mode
+.notes and just to re-iterate that this stuff is complicated
 
 !SLIDE
 # Time to ship!
@@ -414,7 +311,7 @@
 .notes this is what I tried to do originally, but I needed to heed the other lessons first. With verifiable API clients and mock modes I could work in a single repository at a time, and be confident that if my tests pass, things will work when I deploy to production.
 
 !SLIDE
-### Side Note: Use Feature Flags
+### Ship it behind a Feature Flag
 
     @@@ ruby
     class Account < ActiveRecord::Base
@@ -432,16 +329,7 @@
       = link_to "Addons", account_addons_url(@account)
 
 !SLIDE
-# Document your APIs
-
-<div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/services-docs-API.png"/>
-</div>
-
-.notes documentation has a price (just like code) the more you write, the more you need to maintain
-
-!SLIDE
-# Share your errors
+# Log and Share Exceptions
 
 <div style="height: 600px; width:1000px; overflow:auto">
   <img src="/image/screenshots/newrelicerrors1.png"/>
@@ -450,7 +338,7 @@
 .notes we actually show partners a debug console with exception traces for recent errors.
 
 !SLIDE
-# Share your errors
+# Log and Share Exceptions
 
 <div style="height: 600px; width:1000px; overflow:auto">
   <img src="/image/screenshots/newrelicerrors2.png"/>
@@ -459,12 +347,162 @@
 .notes A 200 status code means the server handled the request successfully, but doesn't guarantee the client can parse and understand the response.
 
 !SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
+### Tools
+
+!SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
+# Rack
+
+!SLIDE
+### Minimal Rack app
+
+    @@@ ruby
+    miniapp = lambda{|env| [200, {}, ["Hello World"]]}
+
+
+    miniapp.call({})
+
+!SLIDE
+### Sinatra is Rack
+
+    @@@ ruby
+    require 'sinatra/base'
+    class SinatraApp < Sinatra::Base
+      get "/hi" do
+        "Hello There"
+      end
+    end
+
+    SinatraApp.call('REQUEST_METHOD' => 'GET',
+      'PATH_INFO' => '/hi', 'rack.input' => StringIO.new)
+
+!SLIDE
+### Rails is Rack
+
+    @@@ ruby
+    require 'action_controller/railtie'
+    class FourteenLineRailsApp < Rails::Application
+      config.secret_token = "123456789012345678901234567890"
+      config.middleware.delete(Rack::Lock)
+      Rails.logger = Logger.new(nil)
+      routes.draw do
+        match "/", :to => "hi#index"
+      end
+    end
+    class HiController < ActionController::Base
+      def index
+        render :text => "hello"
+      end
+    end
+
+    FourteenLineRailsApp.call("REQUEST_METHOD"=>"GET", 
+      "PATH_INFO"=>"/", "rack.input" => StringIO.new)
+
+!SLIDE bullets incremental
+### Artifice
+
+    @@@ ruby
+    require 'net/http'
+    Net::HTTP.get_print(URI.parse('http://google.com'))
+
+    require 'artifice'
+    Artifice.activate_with(FourteenLineRailsApp)
+    Net::HTTP.get_print(URI.parse('http://google.com/'))
+    Artifice.deactivate
+
+* <br/>`Artifice.activate_with(Capybara.app)`
+
+!SLIDE
+### <s><div></div>Artifice</s> rack-client
+
+    @@@ ruby
+    require 'rack/client'
+    client = Rack::Client.new
+    client.get('http://google.com', {}).body
+
+    client = Rack::Client.new{ run FourteenLineRailsApp }
+    client.get('http://google.co/', {}).body
+
+
+!SLIDE
+### Rack map
+
+    @@@ ruby
+    mapped_app = Rack::Builder.new do
+      map "http://miniapp/" do
+        run miniapp
+      end
+      map "http://sinatraapp/" do
+        run SinatraApp
+      end
+      map "http://railsapp/" do
+        run FourteenLineRailsApp
+      end
+    end
+
+    client = Rack::Client.new{ run FourteenLineRailsApp }
+    client.get('http://railsapp/', {}).body
+    client.get('http://sinatraapp/hi', {}).body
+    client.get('http://miniapp/foobarbaz', {}).body
+
+!SLIDE
+# `use RequestVisualizer`
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/request_visualizer.png"/>
+</div>
+
+.notes FOCUS: link to the arrows. So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
+
+!SLIDE bullets incremental
+### pow <br/> <small>http://pow.cx/</small>
+
+* `myapp.dev` + `otherapp.dev` <br/> vs. <br/> `localhost:3000` + `localhost:4000`
+* ![](pictures/logo-pow.png)
+
+!SLIDE bullets incremental
+### <s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
+* anything.localdev.engineyard.com:3000 == <br/> localhost:3000
+* ![](screenshots/dns.png)
+
+!SLIDE bullets incremental
+### <small>*.localdev.engineyard.com</small>
+
+    @@@ ruby
+    # config.ru
+    BILL_HOST = "http://billing.localdev.engineyard.com:3000/"
+    CLOUD_HOST = "http://cloud.localdev.engineyard.com:3000/"
+    if Rails.env == "development"
+      map BILL_HOST do
+        run Billing::Application
+      end
+      map CLOUD_HOST do
+        run CloudDashboardFake
+      end
+    else
+      run Billing::Application
+    end
+
+!SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
+# What else?
+
+!SLIDE bullets incremental
+<br/><br/><br/>
 # Your domain model should not match your database model
+
+* Use the presenter pattern
 
 .notes because at some point you'll probably want to change one without changing the other
 .notes because your API client doesn't need to know everything
 
 !SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
 # The best identifier is a URL
 
 .notes because then you don't need to construct URLs
@@ -472,12 +510,21 @@
 .notes example of the URL you get identifying an account, you can GET to for the information again.
 .notes the URL to POST to register a service is also a listing of services you've registered
 
+!SLIDE bullets incremental
+<br/><br/><br/>
+<br/><br/><br/>
+# Distributed Deployment
+
 !SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
 # Involve your designers early
 
 .notes when your API is the backend for a web interface, changes to what the designers what to show on what screen, will dictate changes to what your various API endpoints need to return
 
 !SLIDE
+<br/><br/><br/>
+<br/><br/><br/>
 # One piece of data should have 1 authority
 
 .notes delegate to that authority when you need that information
