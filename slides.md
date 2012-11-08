@@ -347,9 +347,8 @@
 !SLIDE[bg=pictures/bottlecapper.jpg]
 ### Tools
 
-!SLIDE
-<br/><br/><br/>
-<br/><br/><br/>
+!SLIDE larger
+<br/><br/>
 # Rack
 
 !SLIDE[bg=/bg_demo.jpg]
@@ -486,10 +485,17 @@
 ### What else?
 
 !SLIDE bullets incremental
-<br/>
-# Your domain model should not match your database model
+# Domain model <br/> != <br/> Database model
 
-* Use the presenter pattern
+    @@@ ruby
+    def present_service
+      {
+        :service => {
+          :name => @service.name,
+          :enabled => @service_account.exists?
+        }
+      }.to_json
+    end
 
 .notes because at some point you'll probably want to change one without changing the other
 .notes because your API client doesn't need to know everything
@@ -509,9 +515,9 @@
 .notes the URL to POST to register a service is also a listing of services you've registered
 
 !SLIDE
-<br/><br/><br/>
-<br/><br/><br/>
 # Involve your designers early
+
+![](pictures/designers.jpg)
 
 .notes when your API is the backend for a web interface, changes to what the designers what to show on what screen, will dictate changes to what your various API endpoints need to return
 
