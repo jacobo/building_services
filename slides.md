@@ -138,7 +138,7 @@
 ## @geemus
 
 
-!SLIDE marginlessimage
+!SLIDE[bg=/bg_demo.jpg] marginlessimage
 ![](pictures/fog.png)
 
     @@@ ruby
@@ -148,9 +148,7 @@
       aws_secret_access_key: 'b456'}
     fog = Fog::Compute.new(creds)
     fog.servers
-&nbsp;
 
-    @@@ ruby
     Fog.mock!
     fog = Fog::Compute.new(creds)
     fog.servers
@@ -275,7 +273,7 @@
     page.should contain("Example Addon enabled!")
 
 !SLIDE[bg=pictures/boards.jpg]
-### Many Integration tests are written
+### More Integration Tests
 
 !SLIDE[bg=pictures/drivingit.jpg]
 ### Integration tests <br/> drive "real" code
@@ -346,9 +344,7 @@
 
 .notes A 200 status code means the server handled the request successfully, but doesn't guarantee the client can parse and understand the response.
 
-!SLIDE
-<br/><br/><br/>
-<br/><br/><br/>
+!SLIDE[bg=pictures/bottlecapper.jpg]
 ### Tools
 
 !SLIDE
@@ -356,16 +352,15 @@
 <br/><br/><br/>
 # Rack
 
-!SLIDE
+!SLIDE[bg=/bg_demo.jpg]
 ### Minimal Rack app
 
     @@@ ruby
     miniapp = lambda{|env| [200, {}, ["Hello World"]]}
 
-
     miniapp.call({})
 
-!SLIDE
+!SLIDE[bg=/bg_demo.jpg]
 ### Sinatra is Rack
 
     @@@ ruby
@@ -379,29 +374,28 @@
     SinatraApp.call('REQUEST_METHOD' => 'GET',
       'PATH_INFO' => '/hi', 'rack.input' => StringIO.new)
 
-!SLIDE
+!SLIDE[bg=/bg_demo.jpg]
 ### Rails is Rack
 
     @@@ ruby
     require 'action_controller/railtie'
-    class FourteenLineRailsApp < Rails::Application
-      config.secret_token = "123456789012345678901234567890"
-      config.middleware.delete(Rack::Lock)
-      Rails.logger = Logger.new(nil)
-      routes.draw do
-        match "/", :to => "hi#index"
-      end
-    end
+    class ShortRailsApp < Rails::Application
+    config.secret_token="abc"; Rails.logger=Logger.new(nil)
+    config.middleware.delete(Rack::Lock); "ok"; end
+
     class HiController < ActionController::Base
       def index
         render :text => "hello"
       end
     end
+    ShortRailsApp.routes.draw do
+      match "/", :to => "hi#index"
+    end
 
-    FourteenLineRailsApp.call("REQUEST_METHOD"=>"GET", 
+    ShortRailsApp.call("REQUEST_METHOD"=>"GET", 
       "PATH_INFO"=>"/", "rack.input" => StringIO.new)
 
-!SLIDE bullets incremental
+!SLIDE[bg=/bg_demo.jpg] bullets incremental
 ### Artifice
 
     @@@ ruby
@@ -409,13 +403,13 @@
     Net::HTTP.get_print(URI.parse('http://google.com'))
 
     require 'artifice'
-    Artifice.activate_with(FourteenLineRailsApp)
+    Artifice.activate_with(ShortRailsApp)
     Net::HTTP.get_print(URI.parse('http://google.com/'))
     Artifice.deactivate
 
 * <br/>`Artifice.activate_with(Capybara.app)`
 
-!SLIDE
+!SLIDE[bg=/bg_demo.jpg]
 ### <s><div></div>Artifice</s> rack-client
 
     @@@ ruby
@@ -423,11 +417,11 @@
     client = Rack::Client.new
     client.get('http://google.com', {}).body
 
-    client = Rack::Client.new{ run FourteenLineRailsApp }
+    client = Rack::Client.new{ run ShortRailsApp }
     client.get('http://google.co/', {}).body
 
 
-!SLIDE
+!SLIDE[bg=/bg_demo.jpg]
 ### Rack map
 
     @@@ ruby
@@ -439,11 +433,11 @@
         run SinatraApp
       end
       map "http://railsapp/" do
-        run FourteenLineRailsApp
+        run ShortRailsApp
       end
     end
 
-    client = Rack::Client.new{ run FourteenLineRailsApp }
+    client = Rack::Client.new{ run mapped_app }
     client.get('http://railsapp/', {}).body
     client.get('http://sinatraapp/hi', {}).body
     client.get('http://miniapp/foobarbaz', {}).body
@@ -486,13 +480,13 @@
       run Billing::Application
     end
 
-!SLIDE
+!SLIDE[bg=pictures/seals.jpg]
 <br/><br/><br/>
 <br/><br/><br/>
-# What else?
+### What else?
 
 !SLIDE bullets incremental
-<br/><br/><br/>
+<br/>
 # Your domain model should not match your database model
 
 * Use the presenter pattern
@@ -501,19 +495,18 @@
 .notes because your API client doesn't need to know everything
 
 !SLIDE
-<br/><br/><br/>
-<br/><br/><br/>
+<br/>
 # The best identifier is a URL
+
+    @@@ ruby
+    create_service(:name => "MyAddon")
+    => {"url" => "https://services.engineyard.com/services/55",
+        "name" => "MyAddon"}
 
 .notes because then you don't need to construct URLs
 .notes REST (and thus usefulness) will likely fall out.
 .notes example of the URL you get identifying an account, you can GET to for the information again.
 .notes the URL to POST to register a service is also a listing of services you've registered
-
-!SLIDE bullets incremental
-<br/><br/><br/>
-<br/><br/><br/>
-# Distributed Deployment
 
 !SLIDE
 <br/><br/><br/>

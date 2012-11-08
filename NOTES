@@ -4,3 +4,10 @@ bundle exec showoff static
 but then fix the links to images by doing
   find: image/./
   replace: ../
+
+
+have IRB session already running with:
+  require 'iconv'
+
+
+
