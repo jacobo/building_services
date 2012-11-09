@@ -11,7 +11,7 @@
 !SLIDE[bg=pictures/whatamidoing.jpg] bullets incremental
 ### What do I know?
 
-.notes FOCUS: theme is distributed architecture. FOCUS: this talk is about it a story. This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
+.notes This talk my story of building and living with a distributed architecture. This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.
 
 !SLIDE[bg=pictures/engineyardcloud.png]
 ## Engine Yard
@@ -23,39 +23,30 @@
 
 .notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
 
-!SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
-* Minimize additions to Cloud Dashboard
-* Decouple
-* Distributed apps == <br/> Distributed codebase
-
-.notes Back to addons. In the higher level diagram I drew this. So why? Why not just connect our 3rd party services directly to Cloud Dashboard. There are some design goals here.
-
 !SLIDE
-# Distributed Codebase: Bundler Path
+# Documentation First
 
-    @@@ ruby
-    #fetches from rubygems
-    gem 'ey_services_api'
-&nbsp;
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="/image/screenshots/services-docs-API.png"/>
+</div>
 
-    @@@ ruby
-    #fetches from github
-    gem 'ey_services_api', 
-      git: 'git@github.com:engineyard/ey_services_api.git'
-&nbsp;
+.notes documentation has a price (just like code) the more you write, the more you need to maintain
 
-    @@@ ruby
-    #fetches from local repo
-    gem 'ey_services_api', path: '../ey_services_api'
+!SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
+### Why Distributed?
+* Minimize additions to <br/> Cloud Dashboard
+* Forced Decouple
+* <br/><br/><br/><br/><br/><br/> Distributed apps == Distributed codebase
 
-.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+.notes Why build this as a distributed system? We could just add everything into the main rails app: Cloud Dashboard.
 
 !SLIDE[bg=pictures/solowave.jpg] align-left shadowed
 # Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.
 
-.notes This is the "DRY" principle. It applies to our systems, And it applies to our data model.
+.notes This is the "DRY" principle. It applies to our systems, And it applies to our data model. We can extend "knowledge" to "data". One piece of data should have 1 authority.
 
-!SLIDE[bg=diagrams/datamodel_simple.png]
+!SLIDE[bg=diagrams/datamodel_simple.png] moredarkness
+### DRY in a distributed system
 
 .notes this is a simple example of the data model in our case.
 
@@ -67,15 +58,6 @@
 ### Distributed Objects
 
 .notes SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.
-
-!SLIDE
-# Documentation
-
-<div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/services-docs-API.png"/>
-</div>
-
-.notes documentation has a price (just like code) the more you write, the more you need to maintain
 
 !SLIDE[bg=pictures/pointing.jpg]
 ### APIs
@@ -347,6 +329,26 @@
 !SLIDE[bg=pictures/bottlecapper.jpg]
 ### Tools
 
+!SLIDE
+# Distributed Codebase: Bundler Path
+
+    @@@ ruby
+    #fetches from rubygems
+    gem 'ey_services_api'
+&nbsp;
+
+    @@@ ruby
+    #fetches from github
+    gem 'ey_services_api', 
+      git: 'git@github.com:engineyard/ey_services_api.git'
+&nbsp;
+
+    @@@ ruby
+    #fetches from local repo
+    gem 'ey_services_api', path: '../ey_services_api'
+
+.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+
 !SLIDE larger
 <br/><br/>
 # Rack
@@ -520,13 +522,6 @@
 ![](pictures/designers.jpg)
 
 .notes when your API is the backend for a web interface, changes to what the designers what to show on what screen, will dictate changes to what your various API endpoints need to return
-
-!SLIDE
-<br/><br/><br/>
-<br/><br/><br/>
-# One piece of data should have 1 authority
-
-.notes delegate to that authority when you need that information
 
 !SLIDE[bg=pictures/boardsonthebeach.jpg]
 ### Questions?

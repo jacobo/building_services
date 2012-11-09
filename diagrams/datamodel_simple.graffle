@@ -72,8 +72,8 @@
 			<integer>102</integer>
 			<key>Points</key>
 			<array>
-				<string>{460.79748985536622, 183.13665663084888}</string>
-				<string>{515.33022041300774, 183.50391874220867}</string>
+				<string>{460.79748985536611, 308.03429204386026}</string>
+				<string>{515.33022041300785, 308.40155415522008}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -116,8 +116,8 @@
 			<integer>101</integer>
 			<key>Points</key>
 			<array>
-				<string>{401.66032965901996, 232.44843479333471}</string>
-				<string>{401.66032965901996, 200.51222091132118}</string>
+				<string>{401.66032965901985, 357.34607020634598}</string>
+				<string>{401.66032965901985, 325.40985632433262}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -143,7 +143,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{343.02313995079402, 165.46454900212365}, {117.27436123243717, 34.54767191804342}}</string>
+			<string>{{343.0231399507939, 290.36218441513506}, {117.27436123243717, 34.54767191804342}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -187,8 +187,8 @@
 			<integer>99</integer>
 			<key>Points</key>
 			<array>
-				<string>{342.52315983429628, 254.97436876684048}</string>
-				<string>{212.09229647026743, 253.81115965355815}</string>
+				<string>{342.52315983429617, 379.87200417985179}</string>
+				<string>{212.09229647026751, 378.70879506656951}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -231,8 +231,8 @@
 			<integer>44</integer>
 			<key>Points</key>
 			<array>
-				<string>{460.79752351862311, 255.50174913946194}</string>
-				<string>{538.32487082050079, 255.50174913946194}</string>
+				<string>{460.79752351862305, 380.39938455247329}</string>
+				<string>{538.32487082050102, 380.39938455247329}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -258,7 +258,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{538.82487084340801, 232.94843478448882}, {102.78093719482422, 45.106662750244141}}</string>
+			<string>{{538.82487084340823, 357.84607019750013}, {102.78093719482422, 45.106662750244141}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -285,7 +285,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{520.86777797903756, 132.9554698166524}, {133.80985034953565, 239.02877807617188}}</string>
+			<string>{{520.86777797903778, 257.85310522966375}, {133.80985034953565, 239.02877807617188}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -348,7 +348,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{343.02313995079402, 232.94843478448882}, {117.27438354492188, 45.106662750244141}}</string>
+			<string>{{343.0231399507939, 357.84607019750013}, {117.27438354492188, 45.106662750244141}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -375,7 +375,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{145.48770972535175, 232.94844170701447}, {66.104606628417969, 41.126983642578125}}</string>
+			<string>{{145.48770972535178, 357.84607712002583}, {66.104606628417969, 41.126983642578125}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -402,7 +402,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{101.32235622376447, 165.46454192140231}, {168.78471374511719, 199.05514526367188}}</string>
+			<string>{{101.32235622376449, 290.36217733441373}, {168.78471374511719, 199.05514526367188}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -465,7 +465,7 @@
 		</dict>
 		<dict>
 			<key>Bounds</key>
-			<string>{{304.45621013634371, 96.41732102459207}, {168.78471374511719, 291.74014282226562}}</string>
+			<string>{{304.4562101363436, 221.31495643760343}, {168.78471374511719, 291.74014282226562}}</string>
 			<key>Class</key>
 			<string>ShapedGraphic</string>
 			<key>FontInfo</key>
@@ -574,7 +574,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-11-03 18:06:53 +0000</string>
+	<string>2012-11-08 23:04:20 +0000</string>
 	<key>Modifier</key>
 	<string>Jacob</string>
 	<key>NotesVisible</key>
