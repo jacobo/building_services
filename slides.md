@@ -18,10 +18,9 @@
 
 .notes This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...
 
-!SLIDE[bg=diagrams/ey_soa_overview.png] h3overlaybullet bullets incremental
-* <h3>Service-Oriented Architecture</h3>
+!SLIDE[bg=screenshots/addons.png]
 
-.notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
+.notes this is EY Addons
 
 !SLIDE
 # Documentation First
@@ -30,13 +29,17 @@
   <img src="/image/screenshots/services-docs-API.png"/>
 </div>
 
-.notes documentation has a price (just like code) the more you write, the more you need to maintain
+.notes But, documentation has a price (just like code) the more you write, the more you need to maintain
+
+!SLIDE[bg=diagrams/ey_soa_overview.png] h3overlaybullet bullets incremental
+* <h3>Service-Oriented Architecture</h3>
+
+.notes and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.
 
 !SLIDE[bg=diagrams/just_addons.png] bullets rightside-bullets incremental
 ### Why Distributed?
 * Minimize additions to <br/> Cloud Dashboard
 * Forced Decouple
-* <br/><br/><br/><br/><br/><br/> Distributed apps == Distributed codebase
 
 .notes Why build this as a distributed system? We could just add everything into the main rails app: Cloud Dashboard.
 
@@ -48,21 +51,23 @@
 !SLIDE[bg=diagrams/datamodel_simple.png] moredarkness
 ### DRY in a distributed system
 
-.notes this is a simple example of the data model in our case.
+.notes this is a simple example of the data model for addons. DRY means understanding the data model and which system is responsible for what role and what piece of data.
+
+!SLIDE[bg=pictures/distributed_objects.jpg]
+### Distributed Objects
+
+.notes
 
 !SLIDE[bg=diagrams/datamodel.png]
 
 .notes this is the diagram I actually created and maintained during development
-
-!SLIDE[bg=pictures/distributed_objects.jpg]
-### Distributed Objects
 
 .notes SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.
 
 !SLIDE[bg=pictures/pointing.jpg]
 ### APIs
 
-.notes The keyword in API is interface. When I talk about APIs I'm talking about interfaces across systems. But was is a system. When you write a single rails app you don't think about your APIs as much but you do have objects interacting. When your system spans codebases and run on separate machines, you have to formalize your APIS more. But they are there even in a single rails app.
+.notes The keyword in API is interface. When I talk about APIs I'm talking about interfaces across systems. But what is a system. When you write a single rails app you don't think about your APIs as much but you do have objects interacting. When your system spans codebases and run on separate machines, you have to formalize your APIS more. But they are there even in a single rails app.
 
 !SLIDE[bg=diagrams/just_addons.png]
 
