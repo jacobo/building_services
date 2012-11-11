@@ -26,7 +26,7 @@
 # Documentation First
 
 <div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/services-docs-API.png"/>
+  <img src="./screenshots/services-docs-API.png"/>
 </div>
 
 .notes But, documentation has a price (just like code) the more you write, the more you need to maintain
@@ -56,7 +56,31 @@
 !SLIDE[bg=pictures/distributed_objects.jpg]
 ### Distributed Objects
 
-.notes
+.notes Your data is distributed across systems. You'll need APIs to fetch/provide remote data when/where you need it.
+
+!SLIDE smaller_p
+### Distributed Objects
+
+    @@@ ruby
+    class Service < ActiveRecord::Base
+      belongs_to :partner
+
+      has_many :service_accounts, :dependent => :destroy
+
+      validates_presence_of :partner_id
+    end
+&nbsp;
+
+    @@@ ruby
+    class Service < APIStruct.new(:name, :service_accounts_url)
+      attr_accessor :connection
+      attr_accessor :url
+
+      def destroy
+        connection.destroy_service(self.url)
+      end
+    end
+
 
 !SLIDE[bg=diagrams/datamodel.png]
 
@@ -149,8 +173,8 @@
 
 !SLIDE bullets incremental align-left
 # Approach so far
-* Distributed Data Model
 * Documented Use Cases
+* Distributed Data Model
 * Identified APIs
 * Iterate: start at minimal use case
 * Isolate using Mock-Mode
@@ -171,6 +195,11 @@
 !SLIDE
 # Tests Pass
 ![](screenshots/green_tests.png)
+
+
+![](screenshots/green_tests2.png)
+
+![](screenshots/green_tests3.png)
 
 .notes so I thought this was great right. I just wrote all this code, but only like 1/5 of it had to be in AWSM (the slow monolith), so for the most part I was writing greenfield code, and my TDD went fast.
 
@@ -217,7 +246,7 @@
 
 !SLIDE video
 <video controls="controls">
-  <source src="/image/recordings/spikedemo.mov" type="video/mp4">
+  <source src="./recordings/spikedemo.mov" type="video/mp4">
 </video>
 
 .notes clicking around
@@ -260,10 +289,10 @@
     page.should contain("Example Addon enabled!")
 
 !SLIDE[bg=pictures/boards.jpg]
-### More Integration Tests
+### A Few Good Integration Tests
 
 !SLIDE[bg=pictures/drivingit.jpg]
-### Integration tests <br/> drive "real" code
+### Integration tests <br/> drive "real" code <br/> (and real tests)
 
 !SLIDE
 ### 2 Mock Modes
@@ -317,7 +346,7 @@
 # Log and Share Exceptions
 
 <div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/newrelicerrors1.png"/>
+  <img src="./screenshots/newrelicerrors1.png"/>
 </div>
 
 .notes we actually show partners a debug console with exception traces for recent errors.
@@ -326,7 +355,7 @@
 # Log and Share Exceptions
 
 <div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/newrelicerrors2.png"/>
+  <img src="./screenshots/newrelicerrors2.png"/>
 </div>
 
 .notes A 200 status code means the server handled the request successfully, but doesn't guarantee the client can parse and understand the response.
@@ -339,18 +368,18 @@
 
     @@@ ruby
     #fetches from rubygems
-    gem 'ey_services_api'
+    gem 'showoff'
 &nbsp;
 
     @@@ ruby
     #fetches from github
     gem 'ey_services_api', 
-      git: 'git@github.com:engineyard/ey_services_api.git'
+      git: 'git://github.com/jacobo/showoff.git'
 &nbsp;
 
     @@@ ruby
     #fetches from local repo
-    gem 'ey_services_api', path: '../ey_services_api'
+    gem 'ey_services_api', path: '../showoff'
 
 .notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
 
@@ -452,7 +481,7 @@
 # `use RequestVisualizer`
 
 <div style="height: 600px; width:1000px; overflow:auto">
-  <img src="/image/screenshots/request_visualizer.png"/>
+  <img src="./screenshots/request_visualizer.png"/>
 </div>
 
 .notes FOCUS: link to the arrows. So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic
