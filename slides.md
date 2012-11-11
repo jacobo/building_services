@@ -3,7 +3,7 @@
 <br/><br/><br/><br/>
 <br/><br/><br/><br/>
 <br/><br/><br/><br/><br/>
-## github.com/jacobo/building_services
+## jacobo.github.com/building_services
 ## @beanstalksurf
 
 .notes Hi there. This is me. I'm Jacob Burkhart. You can tweet at me there or download this presentation.  
