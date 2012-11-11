@@ -223,3 +223,11 @@ h3 small {
   margin-left: -80px;
   background: rgba(0, 0, 0, 0.9);
 }
+.moredarkness h3{
+  padding-bottom: 20px;
+  padding-top: 20px;
+  background: rgba(0, 0, 0, 0.8);
+}
+.smaller_p p {
+  margin: 0;
+}

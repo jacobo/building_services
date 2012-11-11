@@ -1,0 +1,741 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Presentation</title>
+
+  <meta name="viewport" content="width=device-width"/>
+
+  <link rel="stylesheet" href="./css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="./css/showoff.css" type="text/css"/>
+
+  <link type="text/css" href="./css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/sh_style.css" rel="stylesheet" />
+
+  <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="./js/jquery-print.js"></script>
+  <script type="text/javascript" src="./js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="./js/fg.menu.js"></script>
+  <script type="text/javascript" src="./js/showoff.js"></script>
+  <script type="text/javascript" src="./js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="./js/sh_main.min.js"></script>
+  <script type="text/javascript" src="./js/core.js"></script>
+  <script type="text/javascript" src="./js/showoffcore.js"></script>
+  <script type="text/javascript" src="./js/coffee-script.js"></script>
+
+  
+    
+      <script type="text/javascript" src="./js/sh_lang/sh_ruby.min.js"></script>
+    
+  
+
+  
+    <link rel="stylesheet" href="./file/000_sh_vim-dark.css" type="text/css"/>
+  
+    <link rel="stylesheet" href="./file/styles.css" type="text/css"/>
+  
+
+  
+
+  <script type="text/javascript">
+  $(function(){
+      setupPreso(false, './');
+  });
+  </script>
+
+</head>
+
+<body>
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
+<div id="navigation" class="hidden"></div>
+
+<div id="help">
+  <table>
+    <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
+    <tr><td class="key">space, &rarr;</td><td>next slide</td></tr>
+    <tr><td class="key">shift-space, &larr;</td><td>previous slide</td></tr>
+    <tr><td class="key">d</td><td>toggle debug mode</td></tr>
+    <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
+    <tr><td class="key">c, t</td><td>table of contents (vi)</td></tr>
+    <tr><td class="key">f</td><td>toggle footer</td></tr>
+    <tr><td class="key">r</td><td>reload slides</td></tr>
+    <tr><td class="key">n</td><td>toggle notes</td></tr>
+    <tr><td class="key">p</td><td>run preshow</td></tr>
+    <tr><td class="key">P</td><td>toggle pause</td></tr>
+  </table>
+</div>
+
+<div class="buttonNav">
+  <input type="submit" onClick="prevStep();" value="prev"/>
+  <input type="submit" onClick="nextStep();" value="next"/>
+</div>
+
+<div id="preso">loading presentation...</div>
+<div id="footer">
+  <span id="slideInfo"></span>
+  <span id="debugInfo"></span>
+  <span id="notesInfo"></span>
+</div>
+
+<div id="slides" class="offscreen" style="display:none;">
+<html><body><div style="background: url('file/./pictures/surfpier.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content black" ref="./slides/1">
+<h3>Jacob Burkhart</h3>
+
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+
+<h2>github.com/jacobo/building_services</h2>
+
+<h2>@beanstalksurf</h2>
+
+<p class="notes">Hi there. This is me. I'm Jacob Burkhart. You can tweet at me there or download this presentation.  </p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/whatamidoing.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/2">
+<h3>What do I know?</h3>
+
+<p class="notes">This talk my story of building and living with a distributed architecture. This is the first time I've given a talk in Israel. It's also the first time I've given a technical talk. Last time I gave a talk at a ruby conference I talked about Surfing. This talk is going to be very different, but there's one key point that remains the same. This is a story of my experiences and what has worked for me. I'm not here to give you instructions on what to do. I only hope to inspire you. Maybe you'll face some problems similar to the ones I'm going to describe. Hopefully sharing my experience will help you to solve them better than I did.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/engineyardcloud.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/3">
+<h2>Engine Yard</h2>
+
+<p class="notes">This is where I work. Thank you to them for sponsoring this conference and sending me here. And this is what this talk is about. Because at Engine Yard we have a fairly large and complicated product...</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./screenshots/addons.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/4">
+<p class="notes">this is EY Addons</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/5">
+<h1>Documentation First</h1>
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="./file/././screenshots/services-docs-API.png">
+</div>
+
+<p class="notes">But, documentation has a price (just like code) the more you write, the more you need to maintain</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/ey_soa_overview.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content h3overlaybullet bullets incremental" ref="./slides/6">
+<ul>
+<li><h3>Service-Oriented Architecture</h3></li>
+</ul>
+<p class="notes">and it consists of a lot of services.  We DO have the monolithic app syndrome. (that's our cloud dashboard in the middle). But we've been gradually been adding new features. And whenever we do we look for ways they can be added as separate services.  By the way, I colored those 3 boxes because those are the services that I'm going to talk about today.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/just_addons.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content bullets rightside-bullets incremental" ref="./slides/7">
+<h3>Why Distributed?</h3>
+
+<ul>
+<li>Minimize additions to <br> Cloud Dashboard</li>
+<li>Forced Decouple</li>
+</ul>
+<p class="notes">Why build this as a distributed system? We could just add everything into the main rails app: Cloud Dashboard.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/solowave.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content align-left shadowed" ref="./slides/8">
+<h1>Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.</h1>
+
+<p class="notes">This is the "DRY" principle. It applies to our systems, And it applies to our data model. We can extend "knowledge" to "data". One piece of data should have 1 authority.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/datamodel_simple.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content moredarkness" ref="./slides/9">
+<h3>DRY in a distributed system</h3>
+
+<p class="notes">this is a simple example of the data model for addons. DRY means understanding the data model and which system is responsible for what role and what piece of data.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/distributed_objects.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/10">
+<h3>Distributed Objects</h3>
+
+<p class="notes">Your data is distributed across systems. You'll need APIs to fetch/provide remote data when/where you need it.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content smaller_p" ref="./slides/11">
+<h3>Distributed Objects</h3>
+
+<pre class="sh_ruby"><code>class Service &lt; ActiveRecord::Base
+  belongs_to :partner
+
+  has_many :service_accounts, :dependent =&gt; :destroy
+
+  validates_presence_of :partner_id
+end</code></pre>
+
+<p>&#160;</p>
+
+<pre class="sh_ruby"><code>class Service &lt; APIStruct.new(:name, :service_accounts_url)
+  attr_accessor :connection
+  attr_accessor :url
+
+  def destroy
+    connection.destroy_service(self.url)
+  end
+end</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/datamodel.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/12">
+<p class="notes">this is the diagram I actually created and maintained during development</p>
+
+<p class="notes">SHAI says maybe show this in code. Let me tell you about distributed objects. This is about relationships that go across systems.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/pointing.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/13">
+<h3>APIs</h3>
+
+<p class="notes">The keyword in API is interface. When I talk about APIs I'm talking about interfaces across systems. But what is a system. When you write a single rails app you don't think about your APIs as much but you do have objects interacting. When your system spans codebases and run on separate machines, you have to formalize your APIS more. But they are there even in a single rails app.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/just_addons.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/14">
+<p class="notes">back to the diagram of the 3 systems</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/just_addons_really.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/15">
+<p class="notes">FOCUS: communication goes across the systems. (more important than what it actually is) Here's what it looks like with the cross-app APIs defined. Notice that Addons actually has 2 distinct APIs for public and private, and then each API has two parties. For convenience we call one the server and one the client, but they do more than that.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/addons_workflow.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content h3overlaybullet bullets incremental" ref="./slides/16">
+<ul>
+<li><h3>Where To Start?</h3></li>
+</ul>
+<p class="notes">here's a workflow of a user using the cloud dashboard to enable a service for their app. This one UI action triggers a chain of calls and responses that create new data in each system.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/complexity.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/17">
+<h3>Complexity</h3>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/18">
+<h1>Iteration</h1>
+
+<p><img src="./file/./pictures/iteration.png" alt="thing"></p>
+
+<ul>
+<li>Solve a small subset of one use case.</li>
+<li>Gradually add features/complexity.</li>
+</ul>
+<p class="notes">start with just "enable service" and assume that we already know about the services etc.. </p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/19">
+<h1>Isolation</h1>
+
+<p><img src="./file/./pictures/isolation.png" alt="thing"></p>
+
+<ul>
+<li>Solve simple problems in isolation</li>
+<li>Combine the simple solutions into a complex solution</li>
+</ul>
+<p class="notes">develop on just one of the 3 parts at time, and use a mock so we can write tests.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/addons_workflow.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content black align-left" ref="./slides/20">
+<h2>from this</h2>
+
+<p class="notes">we we'll go from the production use case where everything talks</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/addons_workflow_mock.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content black align-left" ref="./slides/21">
+<h2>to this</h2>
+
+<p class="notes">to using a mock</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/22">
+<p><br><br><br><br><br><br></p>
+
+<h1>Every API Client needs a mocked mode.</h1>
+
+<p class="notes">there are lots of way to actually implement a mocked mode. One of the coolest examples is fog. Shai is going to go into deeper details in his talk later about the different ways you can setup a mocked mode. I just want to introduce the concept.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/wes.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content h2bottomright" ref="./slides/23">
+<h3>Wes</h3>
+
+<h2>@geemus</h2>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content marginlessimage" ref="./slides/24">
+<p><img src="./file/./pictures/fog.png" alt=""></p>
+
+<pre class="sh_ruby"><code>require 'fog'
+creds = {provider: 'AWS',
+  aws_access_key_id: 'a123',
+  aws_secret_access_key: 'b456'}
+fog = Fog::Compute.new(creds)
+fog.servers
+
+Fog.mock!
+fog = Fog::Compute.new(creds)
+fog.servers
+fog.servers.create
+fog.servers
+fog.servers.first.destroy
+fog.servers
+fog.servers</code></pre>
+
+<p class="notes">Demo. here's an example of using fog to call AWS web services in test. We ask amazon to boot an instance, and it happens immediately, and fog responds as if it worked, there's even a delay feature.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental align-left" ref="./slides/25">
+<h1>Approach so far</h1>
+
+<ul>
+<li>Documented Use Cases</li>
+<li>Distributed Data Model</li>
+<li>Identified APIs</li>
+<li>Iterate: start at minimal use case</li>
+<li>Isolate using Mock-Mode</li>
+</ul>
+<p class="notes">FOCUS: spend more time here. Obvious stuff so far.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental align-left" ref="./slides/26">
+<h1>Let's write some code</h1>
+
+<ul>
+<li>Private API client</li>
+<li>Cloud Dashboard</li>
+<li>Public API client</li>
+<li>Fake Service</li>
+<li>Add-ons Service</li>
+</ul>
+<p class="notes">This was a reasonable mistake to make. At Engine Yard we always like to ship things to production as early as possible. We hide them behind a feature flag and so it doesn't matter if they are live.  So reasonably I thought to immediately make all of these things.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/27">
+<h1>Tests Pass</h1>
+
+<p><img src="./file/./screenshots/green_tests.png" alt=""></p>
+
+<p><img src="./file/./screenshots/green_tests2.png" alt=""></p>
+
+<p><img src="./file/./screenshots/green_tests3.png" alt=""></p>
+
+<p class="notes">so I thought this was great right. I just wrote all this code, but only like 1/5 of it had to be in AWSM (the slow monolith), so for the most part I was writing greenfield code, and my TDD went fast.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/28">
+<h1>Deploy and...</h1>
+
+<p><img src="./file/./screenshots/500.png" alt=""></p>
+
+<p class="notes">so I got all this into production</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental align-left" ref="./slides/29">
+<h1>What went wrong</h1>
+
+<ul>
+<li>Don't know <br><img src="./file/./screenshots/500.png" alt="">
+</li>
+</ul>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental align-left" ref="./slides/30">
+<h1>Real Problem</h1>
+
+<ul>
+<li>No visibility of interactions</li>
+<li>No integration tests</li>
+</ul>
+<p class="notes">Because this is distributed system. Nothing was fundamentally wrong with what we were doing, but something was missing.  No visibility is the orange arrows.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/beachponder.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/31">
+<h3>Full integration tests are hard</h3>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/tim.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content h2bottomright" ref="./slides/32">
+<h3>Tim</h3>
+
+<h2>@halorgium</h2>
+
+<p class="notes">the term spike generally refers to throwaway code that you write to try out an idea with the goal of figuring out all the questions you didn't know to ask. What will you stumble on. What assumptions can you discover that are wrong before you go too far down a given path.  Usually you don't write tests, or you write very minimal tests.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/tim.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/33">
+<p><br></p>
+
+<h3>That's crazyness.</h3>
+
+<h3>Write a Spike.</h3>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/urchin.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content align-left bullets incremental" ref="./slides/34">
+<h3>Spike</h3>
+
+<ul>
+<li>Throwaway Code</li>
+<li>No Tests</li>
+<li>Full Integration</li>
+</ul>
+<p class="notes">usually, a spike is throwaway code.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content video" ref="./slides/35">
+<p><video controls="controls"><source src="./file/././recordings/spikedemo.mov" type="video/mp4"></source></video></p>
+
+<p class="notes">clicking around</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/sidewayspalm.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/36">
+<h3>The Spike becomes an integration test</h3>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/37">
+<h1>The Spike becomes an integration test</h1>
+
+<pre class="sh_ruby"><code>#spec_helper.rb
+Capybara.app = Rack::Builder.new do
+  use RequestVisualizer
+  map "http://addons.ey.test/" do
+    run AddonsService::Application
+  end
+  map "http://cloud-dashboard.test/" do
+    run CloudDashboard::Server
+  end
+  map "http://example-service.partner/" do
+    run ExampleService::Server
+  end
+end
+Artifice.activate_with(Capybara.app)</code></pre>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/38">
+<h1>The Spike becomes an integration test</h1>
+
+<pre class="sh_ruby"><code>#enable_spec.rb
+visit "http://cloud-dashboard.test"
+click_link "signup!"
+fill_in "Name", with: "new-customer"
+
+click_button "Create Account"
+click_link "Addons"
+click_button "Enable Example Addon"
+
+page.should contain("Example Addon enabled!")</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/boards.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/39">
+<h3>A Few Good Integration Tests</h3>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/drivingit.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/40">
+<h3>Integration tests <br> drive "real" code <br> (and real tests)</h3>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/41">
+<h3>2 Mock Modes</h3>
+
+<pre class="sh_ruby"><code># ey_services_api/spec/spec_helpers.rb
+if ENV["BUNDLE_GEMFILE"] == "EYIntegratedGemfile"
+  #run our tests against the real thing
+  require 'addons_service'
+  EY::ServicesAPI.mock!(
+    AddonsService::Application)
+else
+  #run our tests against a fake version
+  require 'ey_services_api/fake'
+  EY::ServicesAPI.mock!(
+    EyServicesAPI::FakeForAddonsService)
+end</code></pre>
+
+<p class="notes">SHAI tie in. there are different approaches to doing this... In my case I wrote tests in my API client that could run against either the "mock" server OR the "real" server. I used 2 gemfiles and the "internal" one actually includes the full Addons project as a gem.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./diagrams/crazymocks.png') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/42">
+<p class="notes">and just to re-iterate that this stuff is complicated</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/43">
+<h1>Time to ship!</h1>
+
+<p><img src="./file/./pictures/shipit.png" alt=""></p>
+
+<p class="notes">this is what I tried to do originally, but I needed to heed the other lessons first. With verifiable API clients and mock modes I could work in a single repository at a time, and be confident that if my tests pass, things will work when I deploy to production.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/44">
+<h3>Ship it behind a Feature Flag</h3>
+
+<pre class="sh_ruby"><code>class Account &lt; ActiveRecord::Base
+  has_many :account_features
+  has_many :features, :through =&gt; :account_features
+
+  def has_feature?(name)
+    features.where(name: name).any?
+  end
+end</code></pre>
+
+<p>&#160;</p>
+
+<pre class="sh_ruby"><code>- if @account.has_feature?('addons')
+  = link_to "Addons", account_addons_url(@account)</code></pre>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/45">
+<h1>Log and Share Exceptions</h1>
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="./file/././screenshots/newrelicerrors1.png">
+</div>
+
+<p class="notes">we actually show partners a debug console with exception traces for recent errors.</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/46">
+<h1>Log and Share Exceptions</h1>
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="./file/././screenshots/newrelicerrors2.png">
+</div>
+
+<p class="notes">A 200 status code means the server handled the request successfully, but doesn't guarantee the client can parse and understand the response.</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/bottlecapper.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/47">
+<h3>Tools</h3>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/48">
+<h1>Distributed Codebase: Bundler Path</h1>
+
+<pre class="sh_ruby"><code>#fetches from rubygems
+gem 'showoff'</code></pre>
+
+<p>&#160;</p>
+
+<pre class="sh_ruby"><code>#fetches from github
+gem 'ey_services_api', 
+  git: 'git://github.com/jacobo/showoff.git'</code></pre>
+
+<p>&#160;</p>
+
+<pre class="sh_ruby"><code>#fetches from local repo
+gem 'ey_services_api', path: '../showoff'</code></pre>
+
+<p class="notes">Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content larger" ref="./slides/49">
+<p><br><br></p>
+
+<h1>Rack</h1>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/50">
+<h3>Minimal Rack app</h3>
+
+<pre class="sh_ruby"><code>miniapp = lambda{|env| [200, {}, ["Hello World"]]}
+
+miniapp.call({})</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/51">
+<h3>Sinatra is Rack</h3>
+
+<pre class="sh_ruby"><code>require 'sinatra/base'
+class SinatraApp &lt; Sinatra::Base
+  get "/hi" do
+    "Hello There"
+  end
+end
+
+SinatraApp.call('REQUEST_METHOD' =&gt; 'GET',
+  'PATH_INFO' =&gt; '/hi', 'rack.input' =&gt; StringIO.new)</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/52">
+<h3>Rails is Rack</h3>
+
+<pre class="sh_ruby"><code>require 'action_controller/railtie'
+class ShortRailsApp &lt; Rails::Application
+config.secret_token="abc"; Rails.logger=Logger.new(nil)
+config.middleware.delete(Rack::Lock); "ok"; end
+
+class HiController &lt; ActionController::Base
+  def index
+    render :text =&gt; "hello"
+  end
+end
+ShortRailsApp.routes.draw do
+  match "/", :to =&gt; "hi#index"
+end
+
+ShortRailsApp.call("REQUEST_METHOD"=&gt;"GET", 
+  "PATH_INFO"=&gt;"/", "rack.input" =&gt; StringIO.new)</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/53">
+<h3>Artifice</h3>
+
+<pre class="sh_ruby"><code>require 'net/http'
+Net::HTTP.get_print(URI.parse('http://google.com'))
+
+require 'artifice'
+Artifice.activate_with(ShortRailsApp)
+Net::HTTP.get_print(URI.parse('http://google.com/'))
+Artifice.deactivate</code></pre>
+
+<ul>
+<li>
+<br><code>Artifice.activate_with(Capybara.app)</code>
+</li>
+</ul>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/54">
+<h3>
+<s><div></div>Artifice</s> rack-client</h3>
+
+<pre class="sh_ruby"><code>require 'rack/client'
+client = Rack::Client.new
+client.get('http://google.com', {}).body
+
+client = Rack::Client.new{ run ShortRailsApp }
+client.get('http://google.co/', {}).body</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/.//bg_demo.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/55">
+<h3>Rack map</h3>
+
+<pre class="sh_ruby"><code>mapped_app = Rack::Builder.new do
+  map "http://miniapp/" do
+    run miniapp
+  end
+  map "http://sinatraapp/" do
+    run SinatraApp
+  end
+  map "http://railsapp/" do
+    run ShortRailsApp
+  end
+end
+
+client = Rack::Client.new{ run mapped_app }
+client.get('http://railsapp/', {}).body
+client.get('http://sinatraapp/hi', {}).body
+client.get('http://miniapp/foobarbaz', {}).body</code></pre>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/56">
+<h1><code>use RequestVisualizer</code></h1>
+
+<div style="height: 600px; width:1000px; overflow:auto">
+  <img src="./file/././screenshots/request_visualizer.png">
+</div>
+
+<p class="notes">FOCUS: link to the arrows. So we went through all these various use cases with this basic framework of what I called the spike. But development could be easier. A big problem was that I was pairing and it was hard to make my pair understand everything that was going on, because my only tests were too high level. so I wrote this little middleware that let me see a trace of the API traffic</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/57">
+<h3>pow <br><small>http://pow.cx/</small>
+</h3>
+
+<ul>
+<li>
+<code>myapp.dev</code> + <code>otherapp.dev</code> <br> vs. <br><code>localhost:3000</code> + <code>localhost:4000</code>
+</li>
+<li><img src="./file/./pictures/logo-pow.png" alt=""></li>
+</ul>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/58">
+<h3>
+<s><div></div>pow</s> <small>*.localdev.engineyard.com</small>
+</h3>
+
+<ul>
+<li>anything.localdev.engineyard.com:3000 == <br> localhost:3000</li>
+<li><img src="./file/./screenshots/dns.png" alt=""></li>
+</ul>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/59">
+<h3><small>*.localdev.engineyard.com</small></h3>
+
+<pre class="sh_ruby"><code># config.ru
+BILL_HOST = "http://billing.localdev.engineyard.com:3000/"
+CLOUD_HOST = "http://cloud.localdev.engineyard.com:3000/"
+if Rails.env == "development"
+  map BILL_HOST do
+    run Billing::Application
+  end
+  map CLOUD_HOST do
+    run CloudDashboardFake
+  end
+else
+  run Billing::Application
+end</code></pre>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/seals.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/60">
+<p><br><br><br><br><br><br></p>
+
+<h3>What else?</h3>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content bullets incremental" ref="./slides/61">
+<h1>Domain model <br> != <br> Database model</h1>
+
+<pre class="sh_ruby"><code>def present_service
+  {
+    :service =&gt; {
+      :name =&gt; @service.name,
+      :enabled =&gt; @service_account.exists?
+    }
+  }.to_json
+end</code></pre>
+
+<p class="notes">because at some point you'll probably want to change one without changing the other
+.notes because your API client doesn't need to know everything</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/62">
+<p><br></p>
+
+<h1>The best identifier is a URL</h1>
+
+<pre class="sh_ruby"><code>create_service(:name =&gt; "MyAddon")
+=&gt; {"url" =&gt; "https://services.engineyard.com/services/55",
+    "name" =&gt; "MyAddon"}</code></pre>
+
+<p class="notes">because then you don't need to construct URLs
+.notes REST (and thus usefulness) will likely fall out.
+.notes example of the URL you get identifying an account, you can GET to for the information again.
+.notes the URL to POST to register a service is also a listing of services you've registered</p>
+</div>
+</div></body></html><html><body><div class="slide" data-transition="none">
+<div class="content" ref="./slides/63">
+<h1>Involve your designers early</h1>
+
+<p><img src="./file/./pictures/designers.jpg" alt=""></p>
+
+<p class="notes">when your API is the backend for a web interface, changes to what the designers what to show on what screen, will dictate changes to what your various API endpoints need to return</p>
+</div>
+</div></body></html><html><body><div style="background: url('file/./pictures/boardsonthebeach.jpg') center no-repeat;" class="slide" data-transition="none">
+<div class="content" ref="./slides/64">
+<h3>Questions?</h3>
+
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+
+<h2>github.com/jacobo/building_services</h2>
+
+<h2>@beanstalksurf</h2>
+</div>
+</div></body></html></div>
+<div id="pauseScreen">
+  
+</div>
+
+</body>
+</html>
