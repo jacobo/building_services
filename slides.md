@@ -363,26 +363,6 @@
 !SLIDE[bg=pictures/bottlecapper.jpg]
 ### Tools
 
-!SLIDE
-# Distributed Codebase: Bundler Path
-
-    @@@ ruby
-    #fetches from rubygems
-    gem 'showoff'
-&nbsp;
-
-    @@@ ruby
-    #fetches from github
-    gem 'ey_services_api', 
-      git: 'git://github.com/jacobo/showoff.git'
-&nbsp;
-
-    @@@ ruby
-    #fetches from local repo
-    gem 'ey_services_api', path: '../showoff'
-
-.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
-
 !SLIDE larger
 <br/><br/>
 # Rack
@@ -514,6 +494,27 @@
     else
       run Billing::Application
     end
+
+!SLIDE
+# Distributed Codebase: Bundler Path
+
+    @@@ ruby
+    #fetches from rubygems
+    gem 'showoff'
+&nbsp;
+
+    @@@ ruby
+    #fetches from github
+    gem 'showoff',
+      git: 'git://github.com/jacobo/showoff.git'
+&nbsp;
+
+    @@@ ruby
+    #fetches from local repo
+    gem 'showoff', path: '../showoff'
+
+.notes Develop everything locally with bundler path, and you can use bundler git so you don't have to publish your gems while you are still in development
+
 
 !SLIDE[bg=pictures/seals.jpg]
 <br/><br/><br/>
